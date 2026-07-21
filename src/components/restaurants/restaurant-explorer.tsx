@@ -122,9 +122,9 @@ export function RestaurantExplorer({ restaurants }: RestaurantExplorerProps) {
   );
 
   return (
-    <section>
-      <div className="grid gap-3 border-y border-black/10 py-4 sm:grid-cols-[1fr_auto]">
-        <div className="relative z-10">
+    <section id="explorar" className="scroll-mt-20">
+      <div className="ubifood-reveal grid gap-3 border-y border-black/10 py-4 sm:grid-cols-[1fr_auto]">
+        <div className="ubifood-search-shell relative z-10 rounded-lg">
           <label className="relative block">
             <Search
               size={18}
@@ -160,7 +160,7 @@ export function RestaurantExplorer({ restaurants }: RestaurantExplorerProps) {
           </label>
 
           {searchNeedle && searchOpen && (
-            <div className="absolute left-0 right-0 top-full mt-2 overflow-hidden rounded-lg border border-black/10 bg-white shadow-2xl shadow-black/15">
+            <div className="ubifood-search-pop absolute left-0 right-0 top-full mt-2 overflow-hidden rounded-lg border border-black/10 bg-white shadow-2xl shadow-black/15">
               <div className="flex items-center justify-between border-b border-black/5 px-4 py-2 text-xs font-bold text-black/45">
                 <span>Coincidencias</span>
                 <span>{filtered.length} negocios</span>
@@ -280,11 +280,11 @@ export function RestaurantExplorer({ restaurants }: RestaurantExplorerProps) {
           </button>
         </div>
       ) : view === "map" ? (
-        <div className="mt-4">
+        <div className="ubifood-panel-rise mt-4">
           <RestaurantMap restaurants={mapRestaurants} />
         </div>
       ) : (
-        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="ubifood-stagger mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((restaurant) => {
             const availableItems = restaurant.menu_items.filter((item) => item.is_available);
             const startingPrice = availableItems.length
@@ -296,7 +296,7 @@ export function RestaurantExplorer({ restaurants }: RestaurantExplorerProps) {
               <article
                 key={restaurant.id}
                 id={`restaurant-result-${restaurant.id}`}
-                className={`overflow-hidden rounded-lg bg-white shadow-lg shadow-black/5 transition ${
+                className={`ubifood-lift overflow-hidden rounded-lg bg-white shadow-lg shadow-black/5 transition ${
                   highlightedRestaurantId === restaurant.id
                     ? "ring-4 ring-[#f9c74f] ring-offset-2"
                     : ""
@@ -338,7 +338,7 @@ export function RestaurantExplorer({ restaurants }: RestaurantExplorerProps) {
                     </div>
                     <Link
                       href={`/restaurantes/${restaurant.slug}`}
-                      className="inline-flex h-9 items-center gap-2 rounded-lg px-3 text-xs font-black text-white"
+                      className="ubifood-action inline-flex h-9 items-center gap-2 rounded-lg px-3 text-xs font-black text-white"
                       style={{ backgroundColor: color }}
                     >
                       <BookOpen size={15} /> Ver menu

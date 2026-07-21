@@ -179,7 +179,7 @@ export function UvAdvisor() {
 
   const AdviceIcon = advice?.icon ?? SunMedium;
   return (
-    <div className="overflow-hidden rounded-lg bg-white text-[#211c18] shadow-lg shadow-black/15">
+    <div className="ubifood-lift overflow-hidden rounded-lg bg-white text-[#211c18] shadow-lg shadow-black/15">
       <div className="grid grid-cols-[84px_1fr]">
         <div
           className="grid min-h-24 place-items-center p-3 text-center"

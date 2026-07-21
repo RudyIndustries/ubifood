@@ -8,9 +8,14 @@
     "start": "next start",
     "lint": "eslint",
     "check:supabase": "node scripts/check-supabase.mjs",
-    "import:transit": "node --use-system-ca scripts/import-transit-data.mjs"
+    "import:transit": "node --use-system-ca scripts/import-transit-data.mjs",
+    "cap:sync": "cap sync android",
+    "cap:open": "cap open android",
+    "cap:run": "cap run android"
   },
   "dependencies": {
+    "@capacitor/android": "^8.4.2",
+    "@capacitor/core": "^8.4.2",
     "@supabase/ssr": "^0.12.3",
     "@supabase/supabase-js": "^2.110.7",
     "lucide-react": "^1.25.0",
@@ -20,6 +25,7 @@
     "react-dom": "19.2.4"
   },
   "devDependencies": {
+    "@capacitor/cli": "^8.4.2",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

@@ -44,7 +44,11 @@ export function RescueDeals({ deals }: { deals: RescueDealWithRestaurant[] }) {
   }
 
   return (
-    <section className="mt-5" aria-labelledby="rescue-title">
+    <section
+      id="rescates"
+      className="ubifood-reveal mt-5 scroll-mt-20"
+      aria-labelledby="rescue-title"
+    >
       <div className="flex items-end justify-between gap-3">
         <div>
           <p className="flex items-center gap-2 text-sm font-black text-[#18664f]">
@@ -54,7 +58,7 @@ export function RescueDeals({ deals }: { deals: RescueDealWithRestaurant[] }) {
         </div>
         <span className="text-sm font-bold text-black/45">{deals.length} activas</span>
       </div>
-      <div className="mt-3 flex snap-x gap-3 overflow-x-auto pb-2">
+      <div className="ubifood-stagger mt-3 flex snap-x gap-3 overflow-x-auto pb-2">
         {deals.map((deal) => {
           const restaurant = restaurantOf(deal);
           if (!restaurant) return null;
@@ -63,7 +67,7 @@ export function RescueDeals({ deals }: { deals: RescueDealWithRestaurant[] }) {
             : 0;
 
           return (
-            <article key={deal.id} className="w-[285px] shrink-0 snap-start rounded-lg border-l-4 border-[#43aa8b] bg-white p-4 shadow-lg shadow-black/5">
+            <article key={deal.id} className="ubifood-lift w-[285px] shrink-0 snap-start rounded-lg border-l-4 border-[#43aa8b] bg-white p-4 shadow-lg shadow-black/5">
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
                   <p className="truncate text-xs font-black text-[#18664f]">{restaurant.name}</p>
@@ -82,7 +86,7 @@ export function RescueDeals({ deals }: { deals: RescueDealWithRestaurant[] }) {
                 <span className="flex items-center gap-1"><Clock3 size={14} /> hasta {expirationTime(deal.expires_at)}</span>
                 <span className="flex min-w-0 items-center gap-1"><MapPin size={14} /> <span className="truncate">{restaurant.zone}</span></span>
               </div>
-              <Link href={`/restaurantes/${restaurant.slug}`} className="mt-3 inline-flex h-9 w-full items-center justify-center rounded-lg bg-[#18664f] px-3 text-xs font-black text-white">
+              <Link href={`/restaurantes/${restaurant.slug}`} className="ubifood-action mt-3 inline-flex h-9 w-full items-center justify-center rounded-lg bg-[#18664f] px-3 text-xs font-black text-white">
                 Ver restaurante
               </Link>
             </article>

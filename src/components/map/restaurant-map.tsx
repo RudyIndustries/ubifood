@@ -846,7 +846,7 @@ export function RestaurantMap({ restaurants }: RestaurantMapProps) {
 
   return (
     <>
-    <div className="relative h-[62vh] min-h-[500px] max-h-[720px] overflow-hidden rounded-lg border border-black/10 bg-[#dfe8e5]">
+    <div className="ubifood-panel-rise relative h-[62vh] min-h-[500px] max-h-[720px] overflow-hidden rounded-lg border border-black/10 bg-[#dfe8e5]">
       <div
         ref={containerRef}
         className="restaurant-map-canvas absolute inset-0 size-full"
@@ -866,7 +866,7 @@ export function RestaurantMap({ restaurants }: RestaurantMapProps) {
           type="button"
           onClick={() => setShowTeleferico((visible) => !visible)}
           aria-pressed={showTeleferico}
-          className={`inline-flex h-9 items-center gap-2 rounded-lg px-3 text-xs font-black shadow-lg ${
+          className={`ubifood-action inline-flex h-9 items-center gap-2 rounded-lg px-3 text-xs font-black shadow-lg ${
             showTeleferico
               ? "bg-[#d62828] text-white"
               : "bg-white/95 text-black/60"
@@ -878,7 +878,7 @@ export function RestaurantMap({ restaurants }: RestaurantMapProps) {
           type="button"
           onClick={() => setShowPumakatari((visible) => !visible)}
           aria-pressed={showPumakatari}
-          className={`inline-flex h-9 items-center gap-2 rounded-lg px-3 text-xs font-black shadow-lg ${
+          className={`ubifood-action inline-flex h-9 items-center gap-2 rounded-lg px-3 text-xs font-black shadow-lg ${
             showPumakatari
               ? "bg-[#277da1] text-white"
               : "bg-white/95 text-black/60"
@@ -898,7 +898,7 @@ export function RestaurantMap({ restaurants }: RestaurantMapProps) {
         </div>
       )}
       {selected && (
-        <article className="absolute inset-x-3 bottom-3 max-h-[calc(100%-24px)] overflow-y-auto rounded-lg bg-white p-4 shadow-2xl sm:left-3 sm:right-auto sm:w-[390px]">
+        <article className="ubifood-panel-rise absolute inset-x-3 bottom-3 max-h-[calc(100%-24px)] overflow-y-auto rounded-lg bg-white p-4 shadow-2xl sm:left-3 sm:right-auto sm:w-[390px]">
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
               <p className="text-xs font-black" style={{ color: selected.color }}>{selected.category}</p>
@@ -923,7 +923,7 @@ export function RestaurantMap({ restaurants }: RestaurantMapProps) {
                 <button
                   type="button"
                   onClick={() => setMenuOpen(true)}
-                  className="inline-flex h-10 items-center justify-center gap-2 rounded-lg text-xs font-black text-white"
+                  className="ubifood-action inline-flex h-10 items-center justify-center gap-2 rounded-lg text-xs font-black text-white"
                   style={{ backgroundColor: selected.color }}
                 >
                   <BookOpen size={16} /> Ver menu
@@ -937,7 +937,7 @@ export function RestaurantMap({ restaurants }: RestaurantMapProps) {
                       geolocateRef.current?.trigger();
                     }
                   }}
-                  className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-[#211c18] text-xs font-black text-white"
+                  className="ubifood-action inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-[#211c18] text-xs font-black text-white"
                 >
                   <RouteIcon size={16} /> Como llegar
                 </button>

@@ -76,7 +76,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
 
   return (
     <div className="grid gap-4 lg:grid-cols-[0.85fr_1fr]">
-      <section className="rounded-[32px] bg-[#d62828] p-5 text-white shadow-2xl shadow-[#d62828]/20">
+      <section className="rounded-lg bg-[#d62828] p-5 text-white shadow-2xl shadow-[#d62828]/20">
         <p className="text-sm font-bold uppercase tracking-[0.25em] text-white/70">
           Panel admin
         </p>
@@ -102,7 +102,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
         {metricCards.map(({ Icon, title, value }) => (
           <article
             key={title}
-            className="rounded-[28px] bg-white p-4 shadow-xl shadow-black/5"
+            className="rounded-lg bg-white p-4 shadow-xl shadow-black/5"
           >
             <Icon className="mb-3 text-[#d62828]" />
             <h2 className="text-xl font-black">{title}</h2>
@@ -111,7 +111,10 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
         ))}
       </section>
 
-      <section className="rounded-[32px] bg-white p-5 shadow-xl shadow-black/5 lg:col-span-2">
+      <section
+        id="negocios"
+        className="scroll-mt-20 rounded-lg bg-white p-5 shadow-xl shadow-black/5 lg:col-span-2"
+      >
         <div className="mb-4 flex items-center justify-between gap-3">
           <div>
             <p className="text-sm font-bold text-[#d62828]">Restaurantes</p>
@@ -123,7 +126,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
         </div>
 
         {restaurants.length === 0 ? (
-          <p className="rounded-3xl bg-[#f7f4ed] p-5 text-sm font-bold text-black/60">
+          <p className="rounded-lg bg-[#f7f4ed] p-5 text-sm font-bold text-black/60">
             Todavia no hay restaurantes registrados.
           </p>
         ) : (
@@ -131,7 +134,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             {restaurants.map((restaurant) => (
               <article
                 key={restaurant.id}
-                className="grid gap-4 rounded-3xl border border-black/5 bg-[#fbfaf7] p-4 md:grid-cols-[1fr_auto]"
+                className="grid gap-4 rounded-lg border border-black/5 bg-[#fbfaf7] p-4 md:grid-cols-[1fr_auto]"
               >
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
@@ -169,7 +172,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                         />
                         <input type="hidden" name="status" value={nextStatus} />
                         <button
-                          className={`h-11 w-full rounded-2xl px-3 text-xs font-black transition ${
+                          className={`h-11 w-full rounded-lg px-3 text-xs font-black transition ${
                             restaurant.status === nextStatus
                               ? "bg-[#211c18] text-white"
                               : "bg-white text-[#211c18] hover:bg-[#fff4e0]"

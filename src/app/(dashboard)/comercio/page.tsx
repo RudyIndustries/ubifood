@@ -140,7 +140,7 @@ export default async function ComercioPage({ searchParams }: ComercioPageProps) 
 
   return (
     <div className="grid gap-5 lg:grid-cols-2">
-      <section className="rounded-lg bg-white p-5 shadow-xl shadow-black/10 lg:col-span-2">
+      <section className="ubifood-reveal rounded-lg bg-white p-5 shadow-xl shadow-black/10 lg:col-span-2">
         <p className="text-sm font-bold uppercase text-[#43aa8b]">
           Panel comercio
         </p>
@@ -234,25 +234,25 @@ export default async function ComercioPage({ searchParams }: ComercioPageProps) 
                 </h2>
               </div>
             </div>
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              <article className="rounded-lg border border-black/5 bg-white p-4">
+            <div className="ubifood-stagger grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <article className="ubifood-lift rounded-lg border border-black/5 bg-white p-4">
                 <BookOpen className="text-[#d62828]" size={20} />
                 <p className="mt-3 text-2xl font-black">{availableItems.length}</p>
                 <p className="text-xs font-bold text-black/50">
                   de {menuItems.length} platos disponibles
                 </p>
               </article>
-              <article className="rounded-lg border border-black/5 bg-white p-4">
+              <article className="ubifood-lift rounded-lg border border-black/5 bg-white p-4">
                 <CircleDollarSign className="text-[#8a5a00]" size={20} />
                 <p className="mt-3 text-2xl font-black">Bs {averagePrice.toFixed(0)}</p>
                 <p className="text-xs font-bold text-black/50">precio promedio visible</p>
               </article>
-              <article className="rounded-lg border border-black/5 bg-white p-4">
+              <article className="ubifood-lift rounded-lg border border-black/5 bg-white p-4">
                 <Leaf className="text-[#18664f]" size={20} />
                 <p className="mt-3 text-2xl font-black">{activeRescues.length}</p>
                 <p className="text-xs font-bold text-black/50">rescates activos</p>
               </article>
-              <article className="rounded-lg border border-black/5 bg-white p-4">
+              <article className="ubifood-lift rounded-lg border border-black/5 bg-white p-4">
                 <PackageCheck className="text-[#43aa8b]" size={20} />
                 <p className="mt-3 text-2xl font-black">{rescuePortions}</p>
                 <p className="text-xs font-bold text-black/50">porciones por rescatar</p>
@@ -260,7 +260,7 @@ export default async function ComercioPage({ searchParams }: ComercioPageProps) 
             </div>
           </section>
 
-          <section className="rounded-lg bg-[#211c18] p-5 text-white">
+          <section className="ubifood-panel-rise rounded-lg bg-[#211c18] p-5 text-white">
             <p className="text-xs font-black uppercase text-[#f9c74f]">Control del dia</p>
             <h2 className="mt-1 text-xl font-black">Disponibilidad rápida</h2>
             <p className="mt-2 text-sm leading-6 text-white/60">
@@ -269,13 +269,13 @@ export default async function ComercioPage({ searchParams }: ComercioPageProps) 
             <div className="mt-4 grid gap-2 sm:grid-cols-2">
               <form action={setDailyMenuAvailabilityAction}>
                 <input type="hidden" name="isAvailable" value="true" />
-                <button className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#43aa8b] px-3 text-sm font-black text-white">
+                <button className="ubifood-action inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#43aa8b] px-3 text-sm font-black text-white">
                   <Eye size={17} /> Activar menu
                 </button>
               </form>
               <form action={setDailyMenuAvailabilityAction}>
                 <input type="hidden" name="isAvailable" value="false" />
-                <button className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-white/10 px-3 text-sm font-black text-white">
+                <button className="ubifood-action inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-white/10 px-3 text-sm font-black text-white">
                   <EyeOff size={17} /> Pausar menu
                 </button>
               </form>
@@ -283,14 +283,14 @@ export default async function ComercioPage({ searchParams }: ComercioPageProps) 
             <form action={finishActiveRescuesAction} className="mt-2">
               <button
                 disabled={activeRescues.length === 0}
-                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg border border-white/15 px-3 text-sm font-black text-white disabled:cursor-not-allowed disabled:opacity-35"
+                className="ubifood-action inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg border border-white/15 px-3 text-sm font-black text-white disabled:cursor-not-allowed disabled:opacity-35"
               >
                 <Leaf size={17} /> Finalizar rescates activos
               </button>
             </form>
           </section>
 
-          <section className="rounded-lg bg-white p-5 shadow-lg shadow-black/5">
+          <section className="ubifood-lift rounded-lg bg-white p-5 shadow-lg shadow-black/5">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-xs font-black uppercase text-[#d62828]">Presentacion</p>
@@ -319,13 +319,13 @@ export default async function ComercioPage({ searchParams }: ComercioPageProps) 
             <div className="mt-5 grid gap-2 sm:grid-cols-2">
               <Link
                 href="/comercio/menu"
-                className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-[#fff0ed] px-3 text-xs font-black text-[#a32323]"
+                className="ubifood-action inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-[#fff0ed] px-3 text-xs font-black text-[#a32323]"
               >
                 <Plus size={16} /> Agregar platos
               </Link>
               <Link
                 href="/comercio/rescates"
-                className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-[#e8f5ef] px-3 text-xs font-black text-[#18664f]"
+                className="ubifood-action inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-[#e8f5ef] px-3 text-xs font-black text-[#18664f]"
               >
                 <Leaf size={16} /> Crear rescate
               </Link>
@@ -337,7 +337,7 @@ export default async function ComercioPage({ searchParams }: ComercioPageProps) 
       <form
         id="restaurant-profile"
         action={saveRestaurantAction}
-        className="rounded-lg bg-[#fffaf0] p-5 shadow-xl shadow-black/10 lg:col-span-2"
+        className="ubifood-reveal rounded-lg bg-[#fffaf0] p-5 shadow-xl shadow-black/10 lg:col-span-2"
       >
         <input type="hidden" name="restaurantId" value={restaurant?.id ?? ""} />
 
@@ -452,7 +452,7 @@ export default async function ComercioPage({ searchParams }: ComercioPageProps) 
           restaurantId={restaurant?.id}
         />
 
-        <button className="mt-5 h-12 w-full rounded-lg bg-[#d62828] px-4 font-black text-white shadow-lg shadow-[#d62828]/20 transition hover:bg-[#b91f1f]">
+        <button className="ubifood-action mt-5 h-12 w-full rounded-lg bg-[#d62828] px-4 font-black text-white shadow-lg shadow-[#d62828]/20 transition hover:bg-[#b91f1f]">
           Guardar restaurante
         </button>
       </form>
