@@ -26,6 +26,7 @@ function getTheme(restaurant: RestaurantWithTheme) {
     primary_color: relationship?.primary_color ?? "#d62828",
     secondary_color: relationship?.secondary_color ?? "#277da1",
     accent_color: relationship?.accent_color ?? "#f9c74f",
+    notebook_style: relationship?.notebook_style ?? "andino",
   };
 }
 

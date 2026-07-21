@@ -13,7 +13,7 @@ type MapMenuDialogProps = {
   restaurantName: string;
   restaurantSlug: string;
   items: MenuItem[];
-  theme: Pick<RestaurantTheme, "primary_color" | "secondary_color" | "accent_color">;
+  theme: Pick<RestaurantTheme, "primary_color" | "secondary_color" | "accent_color" | "notebook_style">;
 };
 
 export function MapMenuDialog({

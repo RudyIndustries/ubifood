@@ -24,6 +24,17 @@ function readNumber(formData: FormData, key: string, fallback: number) {
   return Number.isFinite(value) ? value : fallback;
 }
 
+function readOptionalUrl(formData: FormData, key: string) {
+  const value = readString(formData, key);
+  if (!value) return null;
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" || url.protocol === "http:" ? url.toString() : null;
+  } catch {
+    return null;
+  }
+}
+
 export async function saveRestaurantAction(formData: FormData) {
   const profile = await requireProfile(["comercio", "admin"]);
   const supabase = await createSupabaseServerClient();
@@ -36,6 +47,8 @@ export async function saveRestaurantAction(formData: FormData) {
   const phone = readString(formData, "phone") || null;
   const description = readString(formData, "description") || null;
   const openingHoursText = readString(formData, "openingHours") || "Lun-Dom 09:00-21:00";
+  const coverUrlInput = readString(formData, "coverUrl");
+  const coverUrl = readOptionalUrl(formData, "coverUrl");
   const latitude = readNumber(formData, "latitude", -16.5);
   const longitude = readNumber(formData, "longitude", -68.15);
   const priceLevel = Math.min(
@@ -43,7 +56,7 @@ export async function saveRestaurantAction(formData: FormData) {
     Math.max(1, Math.round(readNumber(formData, "priceLevel", 2))),
   );
 
-  if (!name || !address || !zone) {
+  if (!name || !address || !zone || (coverUrlInput && !coverUrl)) {
     redirect("/comercio?error=missing-fields");
   }
 
@@ -62,6 +75,7 @@ export async function saveRestaurantAction(formData: FormData) {
     opening_hours: {
       display: openingHoursText,
     },
+    cover_url: coverUrl,
   };
 
   const { data: restaurant, error } = restaurantId
@@ -69,7 +83,7 @@ export async function saveRestaurantAction(formData: FormData) {
         .from("restaurants")
         .update(payload)
         .eq("id", restaurantId)
-        .select("id")
+        .select("id,slug")
         .single()
     : await supabase
         .from("restaurants")
@@ -77,7 +91,7 @@ export async function saveRestaurantAction(formData: FormData) {
           ...payload,
           status: "pending",
         })
-        .select("id")
+        .select("id,slug")
         .single();
 
   if (error || !restaurant) {
@@ -89,7 +103,11 @@ export async function saveRestaurantAction(formData: FormData) {
     primary_color: readString(formData, "primaryColor") || "#d62828",
     secondary_color: readString(formData, "secondaryColor") || "#277da1",
     accent_color: readString(formData, "accentColor") || "#f9c74f",
-    notebook_style: "andino",
+    notebook_style: ["andino", "clasico", "minimal"].includes(
+      readString(formData, "notebookStyle"),
+    )
+      ? readString(formData, "notebookStyle")
+      : "andino",
   };
 
   const { error: themeError } = await supabase
@@ -102,6 +120,7 @@ export async function saveRestaurantAction(formData: FormData) {
 
   revalidatePath("/comercio");
   revalidatePath("/admin");
+  revalidatePath("/cliente");
+  revalidatePath(`/restaurantes/${restaurant.slug}`);
   redirect("/comercio?saved=1");
 }
-

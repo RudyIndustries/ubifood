@@ -81,6 +81,37 @@ select {
   box-shadow: inset 22px 0 24px rgb(122 78 32 / 8%);
 }
 
+.notebook-style-clasico .notebook-sheet,
+.theme-preview-clasico {
+  background-color: #fffaf0;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.notebook-style-clasico .spiral-ring {
+  border-color: #765c42;
+  background: #b99b75;
+}
+
+.notebook-style-minimal .notebook-sheet,
+.theme-preview-minimal {
+  background-color: #fff;
+  background-image: none;
+  box-shadow: none;
+}
+
+.notebook-style-minimal .spiral-binding {
+  opacity: 0.45;
+}
+
+.notebook-style-andino .notebook-sheet,
+.theme-preview-andino {
+  border-bottom-color: var(--menu-accent, var(--preview-accent));
+}
+
+.theme-preview-clasico {
+  color: #3f3328;
+}
+
 .map-grid {
   background-image:
     linear-gradient(rgb(255 255 255 / 46%) 1px, transparent 1px),

@@ -5,6 +5,7 @@ export type RestaurantTheme = {
   secondary_color: string;
   accent_color: string;
   notebook_style: string;
+  cover_image_url?: string | null;
 };
 
 export type MenuItem = {

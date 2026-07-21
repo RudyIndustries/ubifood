@@ -9,7 +9,7 @@ type NotebookMenuProps = {
   restaurantName: string;
   theme: Pick<
     RestaurantTheme,
-    "primary_color" | "secondary_color" | "accent_color"
+    "primary_color" | "secondary_color" | "accent_color" | "notebook_style"
   >;
 };
 
@@ -69,7 +69,7 @@ export function NotebookMenu({
         ))}
       </div>
 
-      <div className="spiral-notebook notebook-shadow relative pl-7 sm:pl-10">
+      <div className={`spiral-notebook notebook-style-${theme.notebook_style} notebook-shadow relative pl-7 sm:pl-10`}>
         <div className="spiral-binding" aria-hidden="true">
           {Array.from({ length: 9 }).map((_, index) => (
             <span key={index} className="spiral-ring" />
@@ -77,8 +77,28 @@ export function NotebookMenu({
         </div>
         <div
           key={activeCategory}
-          className="menu-page notebook-paper notebook-sheet overflow-hidden rounded-r-lg border border-black/10 bg-white"
+          className={`menu-page notebook-sheet overflow-hidden rounded-r-lg border border-black/10 bg-white ${
+            theme.notebook_style === "minimal" ? "" : "notebook-paper"
+          }`}
         >
+          {theme.notebook_style === "andino" && (
+            <div className="notebook-weave flex h-1.5" aria-hidden="true">
+              {Array.from({ length: 9 }).map((_, index) => (
+                <span
+                  key={index}
+                  className="flex-1"
+                  style={{
+                    backgroundColor:
+                      index % 3 === 0
+                        ? theme.primary_color
+                        : index % 3 === 1
+                          ? theme.secondary_color
+                          : theme.accent_color,
+                  }}
+                />
+              ))}
+            </div>
+          )}
           <header className="border-b-2 px-4 py-4 sm:px-6" style={{ borderColor: theme.accent_color }}>
             <p className="text-xs font-black uppercase" style={{ color: theme.secondary_color }}>
               Carta de la casa

@@ -43,7 +43,7 @@ export type MapRestaurant = {
   menuItems: MenuItem[];
   theme: Pick<
     RestaurantTheme,
-    "primary_color" | "secondary_color" | "accent_color"
+    "primary_color" | "secondary_color" | "accent_color" | "notebook_style"
   >;
 };
 

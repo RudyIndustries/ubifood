@@ -4,10 +4,10 @@ import {
   Clock3,
   Leaf,
   MapPin,
-  Palette,
   Store,
   type LucideIcon,
 } from "lucide-react";
+import { RestaurantThemeEditor } from "@/components/restaurants/restaurant-theme-editor";
 import { requireProfile } from "@/lib/auth/session";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { Restaurant, RestaurantTheme } from "@/lib/restaurants/types";
@@ -72,6 +72,7 @@ function getTheme(restaurant: RestaurantWithTheme | null) {
     primary_color: theme?.primary_color ?? "#d62828",
     secondary_color: theme?.secondary_color ?? "#277da1",
     accent_color: theme?.accent_color ?? "#f9c74f",
+    notebook_style: theme?.notebook_style ?? "andino",
   };
 }
 
@@ -94,8 +95,8 @@ export default async function ComercioPage({ searchParams }: ComercioPageProps) 
 
   return (
     <div className="grid gap-4 lg:grid-cols-[0.85fr_1fr]">
-      <section className="rounded-[32px] bg-white p-5 shadow-2xl shadow-black/10">
-        <p className="text-sm font-bold uppercase tracking-[0.25em] text-[#43aa8b]">
+      <section className="rounded-lg bg-white p-5 shadow-xl shadow-black/10">
+        <p className="text-sm font-bold uppercase text-[#43aa8b]">
           Panel comercio
         </p>
         <h1 className="mt-2 text-3xl font-black">
@@ -107,14 +108,14 @@ export default async function ComercioPage({ searchParams }: ComercioPageProps) 
         </p>
 
         {restaurant && (
-          <div className="mt-4 rounded-3xl bg-[#f7f4ed] p-4">
+          <div className="mt-4 rounded-lg bg-[#f7f4ed] p-4">
             <div className="flex items-center justify-between gap-3">
               <div>
                 <p className="text-sm font-bold text-black/50">Estado</p>
                 <p className="text-xl font-black">{statusLabel(restaurant.status)}</p>
               </div>
               <span
-                className={`rounded-full px-3 py-1 text-sm font-black ${
+                className={`rounded-md px-3 py-1 text-sm font-black ${
                   restaurant.status === "approved"
                     ? "bg-[#e8f5ef] text-[#18664f]"
                     : restaurant.status === "blocked"
@@ -145,12 +146,12 @@ export default async function ComercioPage({ searchParams }: ComercioPageProps) 
         )}
 
         {saved && (
-          <p className="mt-4 rounded-2xl bg-[#e8f5ef] px-4 py-3 text-sm font-bold text-[#18664f]">
+          <p className="mt-4 rounded-lg bg-[#e8f5ef] px-4 py-3 text-sm font-bold text-[#18664f]">
             Restaurante guardado. Si esta pendiente, espera aprobacion admin.
           </p>
         )}
         {error && (
-          <p className="mt-4 rounded-2xl bg-[#fff0ed] px-4 py-3 text-sm font-bold text-[#a32323]">
+          <p className="mt-4 rounded-lg bg-[#fff0ed] px-4 py-3 text-sm font-bold text-[#a32323]">
             No se pudo guardar. Revisa los datos e intentalo otra vez.
           </p>
         )}
@@ -158,12 +159,12 @@ export default async function ComercioPage({ searchParams }: ComercioPageProps) 
 
       <form
         action={saveRestaurantAction}
-        className="rounded-[32px] bg-[#fffaf0] p-5 shadow-2xl shadow-black/10"
+        className="rounded-lg bg-[#fffaf0] p-5 shadow-xl shadow-black/10"
       >
         <input type="hidden" name="restaurantId" value={restaurant?.id ?? ""} />
 
         <div className="mb-5 flex items-center gap-3">
-          <div className="grid size-12 place-items-center rounded-2xl bg-[#d62828] text-white">
+          <div className="grid size-12 place-items-center rounded-lg bg-[#d62828] text-white">
             <Store />
           </div>
           <div>
@@ -179,7 +180,7 @@ export default async function ComercioPage({ searchParams }: ComercioPageProps) 
               name="name"
               required
               defaultValue={restaurant?.name ?? ""}
-              className="mt-2 h-12 w-full rounded-2xl border border-black/10 bg-white px-4 font-semibold outline-none ring-[#d62828]/20 focus:ring-4"
+              className="mt-2 h-12 w-full rounded-lg border border-black/10 bg-white px-4 font-semibold outline-none ring-[#d62828]/20 focus:ring-4"
               placeholder="Ej. Sajta Express"
             />
           </label>
@@ -189,7 +190,7 @@ export default async function ComercioPage({ searchParams }: ComercioPageProps) 
             <input
               name="category"
               defaultValue={restaurant?.category ?? "Almuerzo"}
-              className="mt-2 h-12 w-full rounded-2xl border border-black/10 bg-white px-4 font-semibold outline-none ring-[#d62828]/20 focus:ring-4"
+              className="mt-2 h-12 w-full rounded-lg border border-black/10 bg-white px-4 font-semibold outline-none ring-[#d62828]/20 focus:ring-4"
             />
           </label>
 
@@ -198,7 +199,7 @@ export default async function ComercioPage({ searchParams }: ComercioPageProps) 
             <input
               name="phone"
               defaultValue={restaurant?.phone ?? ""}
-              className="mt-2 h-12 w-full rounded-2xl border border-black/10 bg-white px-4 font-semibold outline-none ring-[#d62828]/20 focus:ring-4"
+              className="mt-2 h-12 w-full rounded-lg border border-black/10 bg-white px-4 font-semibold outline-none ring-[#d62828]/20 focus:ring-4"
               placeholder="WhatsApp del negocio"
             />
           </label>
@@ -208,7 +209,7 @@ export default async function ComercioPage({ searchParams }: ComercioPageProps) 
             <textarea
               name="description"
               defaultValue={restaurant?.description ?? ""}
-              className="mt-2 min-h-24 w-full rounded-2xl border border-black/10 bg-white px-4 py-3 font-semibold outline-none ring-[#d62828]/20 focus:ring-4"
+              className="mt-2 min-h-24 w-full rounded-lg border border-black/10 bg-white px-4 py-3 font-semibold outline-none ring-[#d62828]/20 focus:ring-4"
               placeholder="Que vendes, estilo del lugar, especialidad..."
             />
           </label>
@@ -219,7 +220,7 @@ export default async function ComercioPage({ searchParams }: ComercioPageProps) 
               name="zone"
               required
               defaultValue={restaurant?.zone ?? ""}
-              className="mt-2 h-12 w-full rounded-2xl border border-black/10 bg-white px-4 font-semibold outline-none ring-[#d62828]/20 focus:ring-4"
+              className="mt-2 h-12 w-full rounded-lg border border-black/10 bg-white px-4 font-semibold outline-none ring-[#d62828]/20 focus:ring-4"
               placeholder="San Pedro, Sopocachi..."
             />
           </label>
@@ -230,7 +231,7 @@ export default async function ComercioPage({ searchParams }: ComercioPageProps) 
               name="address"
               required
               defaultValue={restaurant?.address ?? ""}
-              className="mt-2 h-12 w-full rounded-2xl border border-black/10 bg-white px-4 font-semibold outline-none ring-[#d62828]/20 focus:ring-4"
+              className="mt-2 h-12 w-full rounded-lg border border-black/10 bg-white px-4 font-semibold outline-none ring-[#d62828]/20 focus:ring-4"
               placeholder="Calle, numero, referencia"
             />
           </label>
@@ -242,7 +243,7 @@ export default async function ComercioPage({ searchParams }: ComercioPageProps) 
               type="number"
               step="0.000001"
               defaultValue={restaurant?.latitude ?? -16.5}
-              className="mt-2 h-12 w-full rounded-2xl border border-black/10 bg-white px-4 font-semibold outline-none ring-[#d62828]/20 focus:ring-4"
+              className="mt-2 h-12 w-full rounded-lg border border-black/10 bg-white px-4 font-semibold outline-none ring-[#d62828]/20 focus:ring-4"
             />
           </label>
 
@@ -253,7 +254,7 @@ export default async function ComercioPage({ searchParams }: ComercioPageProps) 
               type="number"
               step="0.000001"
               defaultValue={restaurant?.longitude ?? -68.15}
-              className="mt-2 h-12 w-full rounded-2xl border border-black/10 bg-white px-4 font-semibold outline-none ring-[#d62828]/20 focus:ring-4"
+              className="mt-2 h-12 w-full rounded-lg border border-black/10 bg-white px-4 font-semibold outline-none ring-[#d62828]/20 focus:ring-4"
             />
           </label>
 
@@ -262,7 +263,7 @@ export default async function ComercioPage({ searchParams }: ComercioPageProps) 
             <select
               name="priceLevel"
               defaultValue={restaurant?.price_level ?? 2}
-              className="mt-2 h-12 w-full rounded-2xl border border-black/10 bg-white px-4 font-semibold outline-none ring-[#d62828]/20 focus:ring-4"
+              className="mt-2 h-12 w-full rounded-lg border border-black/10 bg-white px-4 font-semibold outline-none ring-[#d62828]/20 focus:ring-4"
             >
               <option value="1">Economico</option>
               <option value="2">Medio</option>
@@ -276,49 +277,27 @@ export default async function ComercioPage({ searchParams }: ComercioPageProps) 
             <input
               name="openingHours"
               defaultValue={restaurant?.opening_hours?.display ?? ""}
-              className="mt-2 h-12 w-full rounded-2xl border border-black/10 bg-white px-4 font-semibold outline-none ring-[#d62828]/20 focus:ring-4"
+              className="mt-2 h-12 w-full rounded-lg border border-black/10 bg-white px-4 font-semibold outline-none ring-[#d62828]/20 focus:ring-4"
               placeholder="Lun-Sab 11:00-21:00"
             />
           </label>
         </div>
 
-        <div className="mt-6 rounded-3xl bg-white p-4">
-          <div className="mb-4 flex items-center gap-3">
-            <Palette className="text-[#277da1]" />
-            <div>
-              <p className="text-sm font-bold text-[#277da1]">Menu cuaderno</p>
-              <h3 className="text-xl font-black">Colores del negocio</h3>
-            </div>
-          </div>
+        <RestaurantThemeEditor
+          restaurantName={restaurant?.name ?? "Tu restaurante"}
+          coverUrl={restaurant?.cover_url ?? ""}
+          theme={theme}
+        />
 
-          <div className="grid gap-3 sm:grid-cols-3">
-            {[
-              ["primaryColor", "Principal", theme.primary_color],
-              ["secondaryColor", "Secundario", theme.secondary_color],
-              ["accentColor", "Acento", theme.accent_color],
-            ].map(([name, label, value]) => (
-              <label key={name} className="block">
-                <span className="text-sm font-bold text-black/65">{label}</span>
-                <input
-                  name={name}
-                  type="color"
-                  defaultValue={value}
-                  className="mt-2 h-12 w-full rounded-2xl border border-black/10 bg-white p-2"
-                />
-              </label>
-            ))}
-          </div>
-        </div>
-
-        <button className="mt-5 h-12 w-full rounded-2xl bg-[#d62828] px-4 font-black text-white shadow-lg shadow-[#d62828]/20 transition hover:bg-[#b91f1f]">
+        <button className="mt-5 h-12 w-full rounded-lg bg-[#d62828] px-4 font-black text-white shadow-lg shadow-[#d62828]/20 transition hover:bg-[#b91f1f]">
           Guardar restaurante
         </button>
       </form>
 
-      <section className="rounded-[32px] bg-white p-5 shadow-xl shadow-black/5 lg:col-span-2">
+      <section className="border-t border-black/10 pt-5 lg:col-span-2">
         <div className="grid gap-4 sm:grid-cols-3">
           {nextSteps.map(({ Icon, title, text }) => (
-            <article key={title} className="rounded-3xl bg-[#f7f4ed] p-4">
+            <article key={title} className="border-l-2 border-[#d62828] py-2 pl-4">
               <Icon className="mb-3 text-[#d62828]" />
               <h3 className="text-lg font-black">{title}</h3>
               <p className="mt-1 text-sm text-black/60">{text}</p>
