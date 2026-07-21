@@ -14,6 +14,10 @@ import {
 } from "lucide-react";
 import maplibregl, { type Marker } from "maplibre-gl";
 import { MapMenuDialog } from "@/components/map/map-menu-dialog";
+import {
+  publishClientLocation,
+  subscribeClientLocation,
+} from "@/lib/location/client-location";
 import type { MenuItem, RestaurantTheme } from "@/lib/restaurants/types";
 import {
   planRestaurantRoute,
@@ -107,6 +111,15 @@ export function RestaurantMap({ restaurants }: RestaurantMapProps) {
     );
   }, [activeRouteId, routePlan]);
 
+  useEffect(
+    () =>
+      subscribeClientLocation((location) => {
+        setUserLocation([location.longitude, location.latitude]);
+        setLocationMessage("Ubicacion detectada");
+      }),
+    [],
+  );
+
   useEffect(() => {
     if (!containerRef.current) return;
 
@@ -133,8 +146,11 @@ export function RestaurantMap({ restaurants }: RestaurantMapProps) {
     geolocateRef.current = geolocate;
     geolocate.on("geolocate", (event) => {
       const position = event as GeolocationPosition;
-      setUserLocation([position.coords.longitude, position.coords.latitude]);
-      setLocationMessage("Ubicacion detectada");
+      publishClientLocation({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        accuracy: position.coords.accuracy,
+      });
     });
     geolocate.on("error", () =>
       setLocationMessage("No pudimos acceder a tu ubicacion"),

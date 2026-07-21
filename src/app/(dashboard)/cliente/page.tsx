@@ -1,4 +1,4 @@
-import { CloudSun, MapPin, ShieldCheck } from "lucide-react";
+import { MapPin, ShieldCheck } from "lucide-react";
 import {
   RestaurantExplorer,
   type ExplorerRestaurant,
@@ -7,6 +7,7 @@ import {
   RescueDeals,
   type RescueDealWithRestaurant,
 } from "@/components/restaurants/rescue-deals";
+import { UvAdvisor } from "@/components/weather/uv-advisor";
 import { requireProfile } from "@/lib/auth/session";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
@@ -52,28 +53,26 @@ export default async function ClientePage() {
 
   return (
     <div>
-      <section className="grid gap-3 bg-[#211c18] p-5 text-white sm:grid-cols-[1fr_auto] sm:items-center">
+      <section className="grid gap-4 bg-[#211c18] p-5 text-white lg:grid-cols-[1fr_420px] lg:items-center">
         <div>
           <p className="text-sm font-black text-[#f9c74f]">Hola, {profile.full_name || "foodie"}</p>
-          <h1 className="mt-1 text-2xl font-black">¿Que comemos hoy en La Paz?</h1>
+          <h1 className="mt-1 text-2xl font-black">¿Qué comemos hoy en La Paz?</h1>
           <p className="mt-2 max-w-xl text-sm leading-6 text-white/65">
             Compara opciones aprobadas, revisa sus precios y abre la carta completa.
           </p>
         </div>
-        <div className="grid grid-cols-2 gap-2 text-sm">
-          <div className="rounded-lg bg-white/10 p-3">
-            <CloudSun size={19} className="text-[#f9c74f]" />
-            <p className="mt-2 font-black">UV pendiente</p>
-            <p className="text-xs text-white/55">Se conectara al clima</p>
-          </div>
-          <div className="rounded-lg bg-white/10 p-3">
+        <div className="text-sm">
+          <UvAdvisor />
+          <div className="mt-2 flex items-center gap-3 rounded-lg bg-white/10 px-3 py-2">
             {profile.role === "admin" ? (
               <ShieldCheck size={19} className="text-[#43aa8b]" />
             ) : (
               <MapPin size={19} className="text-[#43aa8b]" />
             )}
-            <p className="mt-2 font-black">La Paz</p>
-            <p className="text-xs text-white/55">Ubicacion inicial</p>
+            <div>
+              <p className="font-black">La Paz</p>
+              <p className="text-xs text-white/55">Pronostico segun tu ubicacion</p>
+            </div>
           </div>
         </div>
       </section>
