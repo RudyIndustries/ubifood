@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import "maplibre-gl/dist/maplibre-gl.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -14,7 +15,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className="h-full antialiased">
-      <body className="min-h-full bg-[#f7f4ed] text-[#211c18]">{children}</body>
+      <body
+        suppressHydrationWarning
+        className="min-h-full bg-[#f7f4ed] text-[#211c18]"
+      >
+        {children}
+      </body>
     </html>
   );
 }

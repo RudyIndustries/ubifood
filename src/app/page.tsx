@@ -19,6 +19,7 @@ import {
   UserRound,
   Utensils,
 } from "lucide-react";
+import Link from "next/link";
 import { useMemo, useState } from "react";
 
 const restaurants = [
@@ -127,12 +128,13 @@ export default function Home() {
                 Ubifood
               </h1>
             </div>
-            <button
-              aria-label="Abrir perfil"
+            <Link
+              href="/auth/login"
+              aria-label="Iniciar sesion"
               className="grid size-11 place-items-center rounded-full bg-[#211c18] text-white shadow-lg"
             >
               <UserRound size={20} />
-            </button>
+            </Link>
           </header>
 
           <div className="rounded-[28px] bg-[#211c18] p-4 text-white shadow-2xl">
@@ -154,6 +156,20 @@ export default function Home() {
                   {filter}
                 </button>
               ))}
+            </div>
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              <Link
+                href="/auth/login"
+                className="rounded-2xl bg-white px-3 py-3 text-center text-sm font-black text-[#211c18]"
+              >
+                Iniciar sesion
+              </Link>
+              <Link
+                href="/auth/register"
+                className="rounded-2xl bg-[#f9c74f] px-3 py-3 text-center text-sm font-black text-[#211c18]"
+              >
+                Registrarse
+              </Link>
             </div>
           </div>
 

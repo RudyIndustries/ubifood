@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "check:supabase": "node scripts/check-supabase.mjs",
+    "import:transit": "node --use-system-ca scripts/import-transit-data.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.3",

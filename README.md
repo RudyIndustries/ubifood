@@ -68,14 +68,18 @@ npm run dev
 
 Abre http://localhost:3000.
 
+Para verificar que Supabase esta conectado sin mostrar claves:
+
+```bash
+npm run check:supabase
+```
+
 ## 6. Siguientes partes
 
-1. Login y registro con Supabase Auth.
-2. Panel admin para aprobar restaurantes.
-3. Panel comercio para menu, precios y ofertas.
-4. Mapa real con MapLibre.
-5. Rutas de auto/caminata.
-6. Rutas de teleferico cuando tengamos los datos.
-7. Indice UV con Open-Meteo.
-8. PWA y luego Capacitor para Android.
-
+1. Panel admin para aprobar restaurantes.
+2. Panel comercio para menu, precios y ofertas.
+3. Mapa real con MapLibre.
+4. Rutas de auto/caminata.
+5. Rutas de teleferico cuando tengamos los datos.
+6. Indice UV con Open-Meteo.
+7. PWA y luego Capacitor para Android.

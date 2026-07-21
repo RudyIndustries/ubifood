@@ -36,6 +36,51 @@ select {
     inset 16px 0 28px rgb(122 78 32 / 10%);
 }
 
+.notebook-paper {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 39px,
+    rgb(39 125 161 / 8%) 40px
+  );
+}
+
+.spiral-notebook {
+  perspective: 1500px;
+}
+
+.spiral-binding {
+  position: absolute;
+  z-index: 4;
+  top: 18px;
+  bottom: 18px;
+  left: 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  pointer-events: none;
+}
+
+.spiral-ring {
+  display: block;
+  width: 42px;
+  height: 10px;
+  border: 3px solid #4c4a46;
+  border-right-width: 5px;
+  border-left-color: #8f8b83;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #d4d0c8, #6f6b65 52%, #e3dfd7);
+  box-shadow: 0 2px 2px rgb(0 0 0 / 24%);
+  transform: rotate(-3deg);
+}
+
+.notebook-sheet {
+  min-height: 360px;
+  transform-origin: left center;
+  backface-visibility: hidden;
+  box-shadow: inset 22px 0 24px rgb(122 78 32 / 8%);
+}
+
 .map-grid {
   background-image:
     linear-gradient(rgb(255 255 255 / 46%) 1px, transparent 1px),
@@ -47,20 +92,98 @@ select {
   background-image: linear-gradient(180deg, #d62828, #277da1, #43aa8b);
 }
 
+.ubifood-map-marker {
+  position: relative;
+  min-width: 58px;
+  height: 34px;
+  padding: 0 10px;
+  border: 3px solid white;
+  border-radius: 8px;
+  background: var(--marker-color, #d62828);
+  box-shadow: 0 5px 14px rgb(0 0 0 / 28%);
+  color: white;
+  font: 800 12px/1 "Segoe UI", sans-serif;
+  cursor: pointer;
+}
+
+.ubifood-map-marker::after {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  border-right: 3px solid white;
+  border-bottom: 3px solid white;
+  background: var(--marker-color, #d62828);
+  content: "";
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.ubifood-map-marker:hover,
+.ubifood-map-marker:focus-visible {
+  z-index: 2;
+  transform: translateY(-2px);
+  outline: 3px solid rgb(39 125 161 / 30%);
+}
+
+.ubifood-map-marker-rescue {
+  position: absolute;
+  top: -9px;
+  right: -9px;
+  display: grid;
+  width: 20px;
+  height: 20px;
+  place-items: center;
+  border: 2px solid white;
+  border-radius: 50%;
+  background: #18664f;
+  color: white;
+  font-size: 10px;
+}
+
+.maplibregl-ctrl-group,
+.maplibregl-ctrl-attrib {
+  border-radius: 8px !important;
+}
+
+.restaurant-map-canvas,
+.restaurant-map-canvas .maplibregl-canvas-container,
+.restaurant-map-canvas .maplibregl-canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .menu-page {
     transform-origin: left center;
-    animation: pageOpen 700ms ease both;
+    animation: pageOpen 720ms cubic-bezier(0.2, 0.75, 0.2, 1) both;
+  }
+
+  .menu-dialog-enter {
+    animation: menuDialogEnter 260ms ease-out both;
   }
 
   @keyframes pageOpen {
     from {
       opacity: 0;
-      transform: rotateY(-16deg) translateX(-8px);
+      transform: rotateY(-68deg) translateX(-18px);
+      filter: brightness(0.8);
     }
     to {
       opacity: 1;
       transform: rotateY(0deg) translateX(0);
+      filter: brightness(1);
+    }
+  }
+
+  @keyframes menuDialogEnter {
+    from {
+      opacity: 0;
+      transform: translateY(16px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
     }
   }
 }
