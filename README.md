@@ -45,8 +45,10 @@ No subas `.env.local` a GitHub.
 En Supabase SQL Editor:
 
 1. Ejecuta `supabase/migrations/0001_initial_schema.sql`.
-2. Crea el usuario admin en Auth si no lo hiciste.
-3. Ejecuta `supabase/seed_admin_profile.sql`.
+2. Ejecuta `supabase/migrations/0002_security_fixes.sql`.
+3. Ejecuta `supabase/migrations/0003_restaurant_media_storage.sql`.
+4. Crea el usuario admin en Auth si no lo hiciste.
+5. Ejecuta `supabase/seed_admin_profile.sql`.
 
 La migracion crea:
 
@@ -59,6 +61,8 @@ La migracion crea:
 - `saved_locations`
 
 Tambien activa Row Level Security para separar permisos de cliente, comercio y admin.
+La tercera migracion crea el bucket publico `restaurant-media`; solo comercios y
+administradores autenticados pueden subir o modificar archivos dentro de su carpeta.
 
 ## 5. Desarrollo local
 
@@ -74,12 +78,19 @@ Para verificar que Supabase esta conectado sin mostrar claves:
 npm run check:supabase
 ```
 
-## 6. Siguientes partes
+## 6. Funcionalidad disponible
 
-1. Panel admin para aprobar restaurantes.
-2. Panel comercio para menu, precios y ofertas.
-3. Mapa real con MapLibre.
-4. Rutas de auto/caminata.
-5. Rutas de teleferico cuando tengamos los datos.
-6. Indice UV con Open-Meteo.
-7. PWA y luego Capacitor para Android.
+- Login y registro con roles cliente, comercio y admin.
+- Aprobacion administrativa de restaurantes.
+- Gestion de menus, precios y ofertas cero desperdicio.
+- Portadas y fotos de platos mediante Supabase Storage.
+- Mapa MapLibre con Teleferico, PumaKatari y planificador estimado.
+- Cartas animadas y personalizables por negocio.
+- Indice UV y recomendacion visual con Open-Meteo.
+
+## 7. Siguientes partes
+
+1. Navegacion vial precisa para caminata y automovil.
+2. Rutas verificadas de micros y minibuses.
+3. Notificaciones de ofertas cero desperdicio.
+4. PWA y luego Capacitor para Android.

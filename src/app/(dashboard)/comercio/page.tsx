@@ -1,17 +1,31 @@
 import Link from "next/link";
 import {
+  BarChart3,
   BookOpen,
-  Clock3,
+  CheckCircle2,
+  CircleDollarSign,
+  Eye,
+  EyeOff,
   Leaf,
-  MapPin,
+  PackageCheck,
+  Plus,
   Store,
-  type LucideIcon,
 } from "lucide-react";
 import { RestaurantThemeEditor } from "@/components/restaurants/restaurant-theme-editor";
+import { RestaurantLocationPicker } from "@/components/restaurants/restaurant-location-picker";
 import { requireProfile } from "@/lib/auth/session";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import type { Restaurant, RestaurantTheme } from "@/lib/restaurants/types";
-import { saveRestaurantAction } from "./actions";
+import type {
+  MenuItem,
+  RescueDeal,
+  Restaurant,
+  RestaurantTheme,
+} from "@/lib/restaurants/types";
+import {
+  finishActiveRescuesAction,
+  saveRestaurantAction,
+  setDailyMenuAvailabilityAction,
+} from "./actions";
 
 type ComercioPageProps = {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
@@ -20,28 +34,6 @@ type ComercioPageProps = {
 type RestaurantWithTheme = Restaurant & {
   restaurant_theme: RestaurantTheme | RestaurantTheme[] | null;
 };
-
-const nextSteps: Array<{
-  Icon: LucideIcon;
-  title: string;
-  text: string;
-}> = [
-  {
-    Icon: BookOpen,
-    title: "Menu",
-    text: "Despues cargaremos platos y precios.",
-  },
-  {
-    Icon: MapPin,
-    title: "Ubicacion",
-    text: "Estas coordenadas alimentaran el mapa.",
-  },
-  {
-    Icon: Clock3,
-    title: "Aprobacion",
-    text: "Admin decide si aparece al publico.",
-  },
-];
 
 function firstParam(
   params: Record<string, string | string[] | undefined>,
@@ -89,13 +81,66 @@ export default async function ComercioPage({ searchParams }: ComercioPageProps) 
     .limit(1)
     .maybeSingle<RestaurantWithTheme>();
 
+  let menuItems: MenuItem[] = [];
+  let rescueDeals: RescueDeal[] = [];
+  if (restaurant) {
+    const [menuResult, rescueResult] = await Promise.all([
+      supabase
+        .from("menu_items")
+        .select("*")
+        .eq("restaurant_id", restaurant.id)
+        .returns<MenuItem[]>(),
+      supabase
+        .from("rescue_deals")
+        .select("*")
+        .eq("restaurant_id", restaurant.id)
+        .eq("is_active", true)
+        .gt("quantity_available", 0)
+        .gt("expires_at", new Date().toISOString())
+        .returns<RescueDeal[]>(),
+    ]);
+    menuItems = menuResult.data ?? [];
+    rescueDeals = rescueResult.data ?? [];
+  }
+
   const theme = getTheme(restaurant);
   const saved = firstParam(params, "saved");
   const error = firstParam(params, "error");
+  const daily = firstParam(params, "daily");
+  const availableItems = menuItems.filter((item) => item.is_available);
+  const activeRescues = rescueDeals;
+  const rescuePortions = activeRescues.reduce(
+    (total, deal) => total + deal.quantity_available,
+    0,
+  );
+  const averagePrice = availableItems.length
+    ? availableItems.reduce((total, item) => total + Number(item.price), 0) /
+      availableItems.length
+    : 0;
+  const profileChecks = restaurant
+    ? [
+        { label: "Descripcion", complete: Boolean(restaurant.description) },
+        { label: "Telefono", complete: Boolean(restaurant.phone) },
+        { label: "Portada", complete: Boolean(restaurant.cover_url) },
+        {
+          label: "Horario",
+          complete: Boolean(restaurant.opening_hours?.display),
+        },
+        { label: "Ubicacion", complete: true },
+        { label: "Menu", complete: menuItems.length > 0 },
+      ]
+    : [];
+  const profileProgress = profileChecks.length
+    ? Math.round(
+        (profileChecks.filter((check) => check.complete).length /
+          profileChecks.length) *
+          100,
+      )
+    : 0;
 
   return (
-    <div className="grid gap-4 lg:grid-cols-[0.85fr_1fr]">
-      <section className="rounded-lg bg-white p-5 shadow-xl shadow-black/10">
+    <div className="grid gap-5 lg:grid-cols-2">
+      <section className="rounded-lg bg-white p-5 shadow-xl shadow-black/10 lg:col-span-2">
         <p className="text-sm font-bold uppercase text-[#43aa8b]">
           Panel comercio
         </p>
@@ -126,7 +171,7 @@ export default async function ComercioPage({ searchParams }: ComercioPageProps) 
                 {restaurant.status}
               </span>
             </div>
-            <div className="mt-4 grid gap-2 sm:grid-cols-2">
+            <div className="mt-4 grid gap-2 sm:grid-cols-3">
               <Link
                 href="/comercio/menu"
                 className="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-[#211c18] px-4 text-sm font-black text-white"
@@ -141,6 +186,15 @@ export default async function ComercioPage({ searchParams }: ComercioPageProps) 
                 <Leaf size={18} />
                 Publicar rescate
               </Link>
+              {restaurant.status === "approved" && (
+                <Link
+                  href={`/restaurantes/${restaurant.slug}`}
+                  className="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-[#eef5f8] px-4 text-sm font-black text-[#245f78]"
+                >
+                  <Eye size={18} />
+                  Vista del cliente
+                </Link>
+              )}
             </div>
           </div>
         )}
@@ -152,14 +206,138 @@ export default async function ComercioPage({ searchParams }: ComercioPageProps) 
         )}
         {error && (
           <p className="mt-4 rounded-lg bg-[#fff0ed] px-4 py-3 text-sm font-bold text-[#a32323]">
-            No se pudo guardar. Revisa los datos e intentalo otra vez.
+            {error === "invalid-location"
+              ? "La ubicacion debe estar dentro del departamento de La Paz. Marca el punto exacto en el mapa."
+              : "No se pudo guardar. Revisa los datos e intentalo otra vez."}
+          </p>
+        )}
+        {daily && (
+          <p className="mt-4 rounded-lg bg-[#eef5f8] px-4 py-3 text-sm font-bold text-[#245f78]">
+            {daily === "menu-open"
+              ? "Todo el menu quedo disponible para hoy."
+              : daily === "menu-paused"
+                ? "El menu fue pausado; los platos aparecen agotados."
+                : "Las promociones de rescate activas fueron finalizadas."}
           </p>
         )}
       </section>
 
+      {restaurant && (
+        <>
+          <section className="lg:col-span-2" aria-labelledby="daily-summary-title">
+            <div className="mb-3 flex items-center gap-2">
+              <BarChart3 className="text-[#277da1]" />
+              <div>
+                <p className="text-xs font-black uppercase text-[#277da1]">Hoy</p>
+                <h2 id="daily-summary-title" className="text-xl font-black">
+                  Resumen operativo
+                </h2>
+              </div>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <article className="rounded-lg border border-black/5 bg-white p-4">
+                <BookOpen className="text-[#d62828]" size={20} />
+                <p className="mt-3 text-2xl font-black">{availableItems.length}</p>
+                <p className="text-xs font-bold text-black/50">
+                  de {menuItems.length} platos disponibles
+                </p>
+              </article>
+              <article className="rounded-lg border border-black/5 bg-white p-4">
+                <CircleDollarSign className="text-[#8a5a00]" size={20} />
+                <p className="mt-3 text-2xl font-black">Bs {averagePrice.toFixed(0)}</p>
+                <p className="text-xs font-bold text-black/50">precio promedio visible</p>
+              </article>
+              <article className="rounded-lg border border-black/5 bg-white p-4">
+                <Leaf className="text-[#18664f]" size={20} />
+                <p className="mt-3 text-2xl font-black">{activeRescues.length}</p>
+                <p className="text-xs font-bold text-black/50">rescates activos</p>
+              </article>
+              <article className="rounded-lg border border-black/5 bg-white p-4">
+                <PackageCheck className="text-[#43aa8b]" size={20} />
+                <p className="mt-3 text-2xl font-black">{rescuePortions}</p>
+                <p className="text-xs font-bold text-black/50">porciones por rescatar</p>
+              </article>
+            </div>
+          </section>
+
+          <section className="rounded-lg bg-[#211c18] p-5 text-white">
+            <p className="text-xs font-black uppercase text-[#f9c74f]">Control del dia</p>
+            <h2 className="mt-1 text-xl font-black">Disponibilidad rápida</h2>
+            <p className="mt-2 text-sm leading-6 text-white/60">
+              Abre o pausa todos los platos de una vez antes y despues del servicio.
+            </p>
+            <div className="mt-4 grid gap-2 sm:grid-cols-2">
+              <form action={setDailyMenuAvailabilityAction}>
+                <input type="hidden" name="isAvailable" value="true" />
+                <button className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#43aa8b] px-3 text-sm font-black text-white">
+                  <Eye size={17} /> Activar menu
+                </button>
+              </form>
+              <form action={setDailyMenuAvailabilityAction}>
+                <input type="hidden" name="isAvailable" value="false" />
+                <button className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-white/10 px-3 text-sm font-black text-white">
+                  <EyeOff size={17} /> Pausar menu
+                </button>
+              </form>
+            </div>
+            <form action={finishActiveRescuesAction} className="mt-2">
+              <button
+                disabled={activeRescues.length === 0}
+                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg border border-white/15 px-3 text-sm font-black text-white disabled:cursor-not-allowed disabled:opacity-35"
+              >
+                <Leaf size={17} /> Finalizar rescates activos
+              </button>
+            </form>
+          </section>
+
+          <section className="rounded-lg bg-white p-5 shadow-lg shadow-black/5">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-xs font-black uppercase text-[#d62828]">Presentacion</p>
+                <h2 className="mt-1 text-xl font-black">Perfil completo</h2>
+              </div>
+              <span className="text-2xl font-black text-[#d62828]">{profileProgress}%</span>
+            </div>
+            <div className="mt-4 h-2 overflow-hidden rounded-full bg-black/10">
+              <div
+                className="h-full rounded-full bg-[#d62828] transition-all"
+                style={{ width: `${profileProgress}%` }}
+              />
+            </div>
+            <div className="mt-4 grid grid-cols-2 gap-2 text-xs font-bold">
+              {profileChecks.map((check) => (
+                <span
+                  key={check.label}
+                  className={`flex items-center gap-2 ${
+                    check.complete ? "text-[#18664f]" : "text-black/40"
+                  }`}
+                >
+                  <CheckCircle2 size={15} /> {check.label}
+                </span>
+              ))}
+            </div>
+            <div className="mt-5 grid gap-2 sm:grid-cols-2">
+              <Link
+                href="/comercio/menu"
+                className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-[#fff0ed] px-3 text-xs font-black text-[#a32323]"
+              >
+                <Plus size={16} /> Agregar platos
+              </Link>
+              <Link
+                href="/comercio/rescates"
+                className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-[#e8f5ef] px-3 text-xs font-black text-[#18664f]"
+              >
+                <Leaf size={16} /> Crear rescate
+              </Link>
+            </div>
+          </section>
+        </>
+      )}
+
       <form
+        id="restaurant-profile"
         action={saveRestaurantAction}
-        className="rounded-lg bg-[#fffaf0] p-5 shadow-xl shadow-black/10"
+        className="rounded-lg bg-[#fffaf0] p-5 shadow-xl shadow-black/10 lg:col-span-2"
       >
         <input type="hidden" name="restaurantId" value={restaurant?.id ?? ""} />
 
@@ -236,27 +414,10 @@ export default async function ComercioPage({ searchParams }: ComercioPageProps) 
             />
           </label>
 
-          <label className="block">
-            <span className="text-sm font-bold text-black/65">Latitud</span>
-            <input
-              name="latitude"
-              type="number"
-              step="0.000001"
-              defaultValue={restaurant?.latitude ?? -16.5}
-              className="mt-2 h-12 w-full rounded-lg border border-black/10 bg-white px-4 font-semibold outline-none ring-[#d62828]/20 focus:ring-4"
-            />
-          </label>
-
-          <label className="block">
-            <span className="text-sm font-bold text-black/65">Longitud</span>
-            <input
-              name="longitude"
-              type="number"
-              step="0.000001"
-              defaultValue={restaurant?.longitude ?? -68.15}
-              className="mt-2 h-12 w-full rounded-lg border border-black/10 bg-white px-4 font-semibold outline-none ring-[#d62828]/20 focus:ring-4"
-            />
-          </label>
+          <RestaurantLocationPicker
+            defaultLatitude={Number(restaurant?.latitude ?? -16.5)}
+            defaultLongitude={Number(restaurant?.longitude ?? -68.15)}
+          />
 
           <label className="block">
             <span className="text-sm font-bold text-black/65">Nivel precio</span>
@@ -287,6 +448,8 @@ export default async function ComercioPage({ searchParams }: ComercioPageProps) 
           restaurantName={restaurant?.name ?? "Tu restaurante"}
           coverUrl={restaurant?.cover_url ?? ""}
           theme={theme}
+          ownerId={profile.id}
+          restaurantId={restaurant?.id}
         />
 
         <button className="mt-5 h-12 w-full rounded-lg bg-[#d62828] px-4 font-black text-white shadow-lg shadow-[#d62828]/20 transition hover:bg-[#b91f1f]">
@@ -294,17 +457,6 @@ export default async function ComercioPage({ searchParams }: ComercioPageProps) 
         </button>
       </form>
 
-      <section className="border-t border-black/10 pt-5 lg:col-span-2">
-        <div className="grid gap-4 sm:grid-cols-3">
-          {nextSteps.map(({ Icon, title, text }) => (
-            <article key={title} className="border-l-2 border-[#d62828] py-2 pl-4">
-              <Icon className="mb-3 text-[#d62828]" />
-              <h3 className="text-lg font-black">{title}</h3>
-              <p className="mt-1 text-sm text-black/60">{text}</p>
-            </article>
-          ))}
-        </div>
-      </section>
     </div>
   );
 }

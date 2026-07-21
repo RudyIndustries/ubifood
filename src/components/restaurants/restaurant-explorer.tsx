@@ -10,6 +10,7 @@ import {
   MapPin,
   Search,
   UtensilsCrossed,
+  X,
 } from "lucide-react";
 import {
   RestaurantMap,
@@ -50,21 +51,48 @@ function restaurantTheme(restaurant: ExplorerRestaurant) {
   };
 }
 
+function normalizeSearch(value: string) {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLocaleLowerCase("es")
+    .trim();
+}
+
 export function RestaurantExplorer({ restaurants }: RestaurantExplorerProps) {
   const [query, setQuery] = useState("");
   const [priceLevel, setPriceLevel] = useState(0);
   const [view, setView] = useState<"map" | "list">("map");
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [highlightedRestaurantId, setHighlightedRestaurantId] = useState<
+    string | null
+  >(null);
   const filtered = useMemo(() => {
-    const needle = query.trim().toLocaleLowerCase("es");
+    const needle = normalizeSearch(query);
 
     return restaurants.filter((restaurant) => {
       const matchesPrice = priceLevel === 0 || restaurant.price_level === priceLevel;
-      const searchable = `${restaurant.name} ${restaurant.category} ${restaurant.zone}`.toLocaleLowerCase(
-        "es",
+      const menuText = restaurant.menu_items
+        .map((item) => `${item.name} ${item.category} ${item.description ?? ""}`)
+        .join(" ");
+      const searchable = normalizeSearch(
+        `${restaurant.name} ${restaurant.category} ${restaurant.zone} ${restaurant.address} ${menuText}`,
       );
       return matchesPrice && (!needle || searchable.includes(needle));
     });
   }, [priceLevel, query, restaurants]);
+  const searchNeedle = normalizeSearch(query);
+  const searchSuggestions = searchNeedle ? filtered.slice(0, 6) : [];
+  const revealRestaurant = (restaurantId: string) => {
+    setHighlightedRestaurantId(restaurantId);
+    setSearchOpen(false);
+    setView("list");
+    window.setTimeout(() => {
+      document
+        .getElementById(`restaurant-result-${restaurantId}`)
+        ?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 50);
+  };
   const mapRestaurants = useMemo<MapRestaurant[]>(
     () =>
       filtered.map((restaurant) => {
@@ -96,18 +124,92 @@ export function RestaurantExplorer({ restaurants }: RestaurantExplorerProps) {
   return (
     <section>
       <div className="grid gap-3 border-y border-black/10 py-4 sm:grid-cols-[1fr_auto]">
-        <label className="relative block">
-          <Search
-            size={18}
-            className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-black/40"
-          />
-          <input
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            className="h-11 w-full rounded-lg border border-black/10 bg-white pl-10 pr-3 text-sm font-semibold outline-none ring-[#277da1]/20 focus:ring-4"
-            placeholder="Buscar restaurante, comida o zona"
-          />
-        </label>
+        <div className="relative z-10">
+          <label className="relative block">
+            <Search
+              size={18}
+              className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-black/40"
+            />
+            <input
+              value={query}
+              onChange={(event) => {
+                setQuery(event.target.value);
+                setSearchOpen(true);
+                setHighlightedRestaurantId(null);
+              }}
+              onFocus={() => setSearchOpen(Boolean(query.trim()))}
+              className="h-12 w-full rounded-lg border border-black/10 bg-white pl-10 pr-11 text-sm font-semibold outline-none ring-[#277da1]/20 focus:ring-4"
+              placeholder="Busca un restaurante, plato o zona"
+              aria-label="Buscar restaurantes y comida"
+            />
+            {query && (
+              <button
+                type="button"
+                onClick={() => {
+                  setQuery("");
+                  setSearchOpen(false);
+                  setHighlightedRestaurantId(null);
+                }}
+                title="Limpiar busqueda"
+                aria-label="Limpiar busqueda"
+                className="absolute right-2 top-1/2 grid size-8 -translate-y-1/2 place-items-center rounded-md text-black/40 hover:bg-black/5 hover:text-black"
+              >
+                <X size={17} />
+              </button>
+            )}
+          </label>
+
+          {searchNeedle && searchOpen && (
+            <div className="absolute left-0 right-0 top-full mt-2 overflow-hidden rounded-lg border border-black/10 bg-white shadow-2xl shadow-black/15">
+              <div className="flex items-center justify-between border-b border-black/5 px-4 py-2 text-xs font-bold text-black/45">
+                <span>Coincidencias</span>
+                <span>{filtered.length} negocios</span>
+              </div>
+              {searchSuggestions.length === 0 ? (
+                <div className="px-4 py-5 text-center">
+                  <p className="font-black">No encontramos “{query.trim()}”</p>
+                  <p className="mt-1 text-xs text-black/50">
+                    Prueba con otro plato, restaurante o zona.
+                  </p>
+                </div>
+              ) : (
+                searchSuggestions.map((restaurant) => {
+                  const matchingDish = restaurant.menu_items.find((item) =>
+                    normalizeSearch(
+                      `${item.name} ${item.category} ${item.description ?? ""}`,
+                    ).includes(searchNeedle),
+                  );
+                  return (
+                    <button
+                      key={restaurant.id}
+                      type="button"
+                      onClick={() => revealRestaurant(restaurant.id)}
+                      className="flex w-full items-center gap-3 border-b border-black/5 px-4 py-3 text-left last:border-b-0 hover:bg-[#f7f4ed]"
+                    >
+                      <span
+                        className="grid size-10 shrink-0 place-items-center rounded-md text-white"
+                        style={{ backgroundColor: primaryColor(restaurant) }}
+                      >
+                        <UtensilsCrossed size={18} />
+                      </span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block truncate text-sm font-black">
+                          {restaurant.name}
+                        </span>
+                        <span className="block truncate text-xs font-semibold text-black/50">
+                          {matchingDish
+                            ? `${matchingDish.name} · Bs ${Number(matchingDish.price).toFixed(2)}`
+                            : `${restaurant.category} · ${restaurant.zone}`}
+                        </span>
+                      </span>
+                      <span className="text-xs font-black text-[#277da1]">Ver</span>
+                    </button>
+                  );
+                })
+              )}
+            </div>
+          )}
+        </div>
         <div className="flex gap-1 rounded-lg bg-white p-1" aria-label="Filtrar por precio">
           {[0, 1, 2, 3, 4].map((level) => (
             <button
@@ -161,15 +263,25 @@ export function RestaurantExplorer({ restaurants }: RestaurantExplorerProps) {
         </div>
       </div>
 
-      {view === "map" ? (
-        <div className="mt-4">
-          <RestaurantMap restaurants={mapRestaurants} />
-        </div>
-      ) : filtered.length === 0 ? (
+      {filtered.length === 0 ? (
         <div className="mt-4 rounded-lg border border-dashed border-black/20 bg-white/60 p-8 text-center">
           <UtensilsCrossed className="mx-auto text-black/35" />
           <p className="mt-3 font-black">No encontramos coincidencias</p>
           <p className="mt-1 text-sm text-black/55">Prueba otra zona, comida o nivel de precio.</p>
+          <button
+            type="button"
+            onClick={() => {
+              setQuery("");
+              setPriceLevel(0);
+            }}
+            className="mt-4 h-9 rounded-md bg-[#211c18] px-4 text-xs font-black text-white"
+          >
+            Mostrar todos
+          </button>
+        </div>
+      ) : view === "map" ? (
+        <div className="mt-4">
+          <RestaurantMap restaurants={mapRestaurants} />
         </div>
       ) : (
         <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -181,7 +293,15 @@ export function RestaurantExplorer({ restaurants }: RestaurantExplorerProps) {
             const color = primaryColor(restaurant);
 
             return (
-              <article key={restaurant.id} className="overflow-hidden rounded-lg bg-white shadow-lg shadow-black/5">
+              <article
+                key={restaurant.id}
+                id={`restaurant-result-${restaurant.id}`}
+                className={`overflow-hidden rounded-lg bg-white shadow-lg shadow-black/5 transition ${
+                  highlightedRestaurantId === restaurant.id
+                    ? "ring-4 ring-[#f9c74f] ring-offset-2"
+                    : ""
+                }`}
+              >
                 <div
                   className="relative flex aspect-[16/8] items-end bg-cover bg-center p-4 text-white"
                   style={{

@@ -56,8 +56,17 @@ export async function saveRestaurantAction(formData: FormData) {
     Math.max(1, Math.round(readNumber(formData, "priceLevel", 2))),
   );
 
+  const isLaPazLocation =
+    latitude >= -17.5 &&
+    latitude <= -15.5 &&
+    longitude >= -69 &&
+    longitude <= -67.5;
+
   if (!name || !address || !zone || (coverUrlInput && !coverUrl)) {
     redirect("/comercio?error=missing-fields");
+  }
+  if (!isLaPazLocation) {
+    redirect("/comercio?error=invalid-location");
   }
 
   const payload = {
@@ -123,4 +132,52 @@ export async function saveRestaurantAction(formData: FormData) {
   revalidatePath("/cliente");
   revalidatePath(`/restaurantes/${restaurant.slug}`);
   redirect("/comercio?saved=1");
+}
+
+async function getOwnedRestaurantId() {
+  const profile = await requireProfile(["comercio", "admin"]);
+  const supabase = await createSupabaseServerClient();
+  const { data: restaurant } = await supabase
+    .from("restaurants")
+    .select("id")
+    .eq("owner_id", profile.id)
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle<{ id: string }>();
+
+  if (!restaurant) redirect("/comercio?error=restaurant-required");
+  return { restaurantId: restaurant.id, supabase };
+}
+
+function refreshCommerceWorkspace() {
+  revalidatePath("/comercio");
+  revalidatePath("/comercio/menu");
+  revalidatePath("/comercio/rescates");
+  revalidatePath("/cliente");
+}
+
+export async function setDailyMenuAvailabilityAction(formData: FormData) {
+  const { restaurantId, supabase } = await getOwnedRestaurantId();
+  const isAvailable = readString(formData, "isAvailable") === "true";
+  const { error } = await supabase
+    .from("menu_items")
+    .update({ is_available: isAvailable })
+    .eq("restaurant_id", restaurantId);
+
+  if (error) redirect("/comercio?error=daily-menu");
+  refreshCommerceWorkspace();
+  redirect(`/comercio?daily=${isAvailable ? "menu-open" : "menu-paused"}`);
+}
+
+export async function finishActiveRescuesAction() {
+  const { restaurantId, supabase } = await getOwnedRestaurantId();
+  const { error } = await supabase
+    .from("rescue_deals")
+    .update({ is_active: false })
+    .eq("restaurant_id", restaurantId)
+    .eq("is_active", true);
+
+  if (error) redirect("/comercio?error=daily-rescues");
+  refreshCommerceWorkspace();
+  redirect("/comercio?daily=rescues-finished");
 }

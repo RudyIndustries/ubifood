@@ -10,6 +10,7 @@ import {
   Trash2,
   UtensilsCrossed,
 } from "lucide-react";
+import { ImageUploadField } from "@/components/restaurants/image-upload-field";
 import { requireProfile } from "@/lib/auth/session";
 import type { MenuItem, Restaurant } from "@/lib/restaurants/types";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
@@ -47,7 +48,15 @@ function savedMessage(value: string | undefined) {
   return null;
 }
 
-function MenuItemFields({ item }: { item?: MenuItem }) {
+function MenuItemFields({
+  item,
+  ownerId,
+  restaurantId,
+}: {
+  item?: MenuItem;
+  ownerId: string;
+  restaurantId: string;
+}) {
   return (
     <div className="grid gap-3 sm:grid-cols-2">
       <input type="hidden" name="menuItemId" value={item?.id ?? ""} />
@@ -86,17 +95,14 @@ function MenuItemFields({ item }: { item?: MenuItem }) {
           placeholder="25.00"
         />
       </label>
-      <label className="block">
-        <span className="text-sm font-bold text-black/65">URL de imagen</span>
-        <input
-          name="imageUrl"
-          type="url"
-          maxLength={500}
-          defaultValue={item?.image_url ?? ""}
-          className={inputClass}
-          placeholder="https://..."
-        />
-      </label>
+      <ImageUploadField
+        inputName="imageUrl"
+        label="Imagen del plato"
+        defaultValue={item?.image_url}
+        ownerId={ownerId}
+        restaurantId={restaurantId}
+        folder="menu"
+      />
       <label className="block sm:col-span-2">
         <span className="text-sm font-bold text-black/65">Descripcion</span>
         <textarea
@@ -199,7 +205,7 @@ export default async function ComercioMenuPage({ searchParams }: MenuPageProps) 
           </div>
         </div>
         <form action={saveMenuItemAction} className="mt-5">
-          <MenuItemFields />
+          <MenuItemFields ownerId={profile.id} restaurantId={restaurant.id} />
           <button className="mt-4 inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#d62828] px-4 text-sm font-black text-white hover:bg-[#b91f1f]">
             <Plus size={18} />
             Agregar plato
@@ -260,7 +266,11 @@ export default async function ComercioMenuPage({ searchParams }: MenuPageProps) 
                       <Pencil size={15} /> Editar
                     </summary>
                     <form action={saveMenuItemAction} className="mt-3 rounded-lg bg-[#f7f4ed] p-4">
-                      <MenuItemFields item={item} />
+                      <MenuItemFields
+                        item={item}
+                        ownerId={profile.id}
+                        restaurantId={restaurant.id}
+                      />
                       <button className="mt-3 inline-flex h-10 items-center gap-2 rounded-lg bg-[#211c18] px-4 text-sm font-black text-white">
                         <Check size={17} /> Guardar cambios
                       </button>

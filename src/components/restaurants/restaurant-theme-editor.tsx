@@ -1,13 +1,16 @@
 "use client";
 
 import { useState, type CSSProperties } from "react";
-import { BookOpen, ImageIcon, Palette } from "lucide-react";
+import { BookOpen, Palette } from "lucide-react";
+import { ImageUploadField } from "@/components/restaurants/image-upload-field";
 import type { RestaurantTheme } from "@/lib/restaurants/types";
 
 type RestaurantThemeEditorProps = {
   restaurantName: string;
   coverUrl: string;
   theme: RestaurantTheme;
+  ownerId: string;
+  restaurantId?: string | null;
 };
 
 const styles = [
@@ -20,6 +23,8 @@ export function RestaurantThemeEditor({
   restaurantName,
   coverUrl: initialCoverUrl,
   theme: initialTheme,
+  ownerId,
+  restaurantId,
 }: RestaurantThemeEditorProps) {
   const [coverUrl, setCoverUrl] = useState(initialCoverUrl);
   const [primary, setPrimary] = useState(initialTheme.primary_color);
@@ -44,21 +49,15 @@ export function RestaurantThemeEditor({
 
       <div className="mt-5 grid gap-5 xl:grid-cols-[1fr_320px]">
         <div className="space-y-4">
-          <label className="block">
-            <span className="text-sm font-bold text-black/65">URL de portada</span>
-            <div className="relative mt-2">
-              <ImageIcon className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-black/35" size={18} />
-              <input
-                name="coverUrl"
-                type="url"
-                maxLength={500}
-                value={coverUrl}
-                onChange={(event) => setCoverUrl(event.target.value)}
-                className="h-11 w-full rounded-lg border border-black/10 bg-white pl-10 pr-3 text-sm font-semibold outline-none ring-[#277da1]/20 focus:ring-4"
-                placeholder="https://..."
-              />
-            </div>
-          </label>
+          <ImageUploadField
+            inputName="coverUrl"
+            label="Portada del restaurante"
+            defaultValue={coverUrl}
+            ownerId={ownerId}
+            restaurantId={restaurantId}
+            folder="covers"
+            onValueChange={setCoverUrl}
+          />
 
           <fieldset>
             <legend className="text-sm font-bold text-black/65">Estilo de la carta</legend>

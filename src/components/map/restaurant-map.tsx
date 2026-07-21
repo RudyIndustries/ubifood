@@ -8,9 +8,11 @@ import {
   Clock3,
   Footprints,
   Leaf,
+  LoaderCircle,
   MapPin,
   Navigation,
   Route as RouteIcon,
+  X,
 } from "lucide-react";
 import maplibregl, { type Marker } from "maplibre-gl";
 import { MapMenuDialog } from "@/components/map/map-menu-dialog";
@@ -20,10 +22,14 @@ import {
 } from "@/lib/location/client-location";
 import type { MenuItem, RestaurantTheme } from "@/lib/restaurants/types";
 import {
+  distanceKm,
   planRestaurantRoute,
+  telefericoPedestrianCoordinate,
   type Coordinate,
   type RouteMode,
+  type RouteOption,
   type RoutePlan,
+  type RouteSegment,
   type TransitData,
 } from "@/lib/transit/planner";
 
@@ -50,6 +56,27 @@ export type MapRestaurant = {
 type RestaurantMapProps = {
   restaurants: MapRestaurant[];
 };
+
+type StreetRoute = {
+  id: string;
+  coordinates: Coordinate[];
+  distanceKm: number;
+  durationMinutes: number;
+};
+
+type StreetRoutingResult = {
+  key: string;
+  routes: StreetRoute[];
+  partial: boolean;
+  error?: string;
+};
+
+type DisplayRouteSegment = RouteSegment & { streetRouted?: boolean };
+type DisplayRouteOption = Omit<RouteOption, "segments"> & {
+  segments: DisplayRouteSegment[];
+  streetComplete: boolean;
+};
+type RoutePreference = "less-walking" | "fastest";
 
 const LA_PAZ_CENTER: [number, number] = [-68.15, -16.5];
 const TELEFERICO_LAYERS = [
@@ -79,6 +106,10 @@ function setLayersVisibility(
   });
 }
 
+function walkingSegmentId(from: Coordinate, to: Coordinate) {
+  return `${from[0].toFixed(6)},${from[1].toFixed(6)}:${to[0].toFixed(6)},${to[1].toFixed(6)}`;
+}
+
 export function RestaurantMap({ restaurants }: RestaurantMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
@@ -91,25 +122,244 @@ export function RestaurantMap({ restaurants }: RestaurantMapProps) {
   const [transitData, setTransitData] = useState<TransitData | null>(null);
   const [activeRouteId, setActiveRouteId] = useState<RouteMode | null>(null);
   const [routeOpen, setRouteOpen] = useState(false);
+  const [routePreference, setRoutePreference] =
+    useState<RoutePreference>("less-walking");
   const [menuOpen, setMenuOpen] = useState(false);
   const [showTeleferico, setShowTeleferico] = useState(true);
   const [showPumakatari, setShowPumakatari] = useState(false);
-  const routePlan = useMemo<RoutePlan | null>(() => {
+  const [streetRoutingResult, setStreetRoutingResult] =
+    useState<StreetRoutingResult | null>(null);
+  const [accessRoutingResult, setAccessRoutingResult] =
+    useState<StreetRoutingResult | null>(null);
+  const accessWalkingRequest = useMemo(() => {
     if (!selected || !userLocation || !transitData) return null;
+    const destination: Coordinate = [
+      Number(selected.longitude),
+      Number(selected.latitude),
+    ];
+    const uniquePairs = new Map<
+      string,
+      { id: string; from: Coordinate; to: Coordinate }
+    >();
+    const addPair = (from: Coordinate, to: Coordinate) => {
+      const id = walkingSegmentId(from, to);
+      uniquePairs.set(id, { id, from, to });
+    };
+    addPair(userLocation, destination);
+
+    const stations = transitData.telefericoStations.features;
+    [...stations]
+      .sort(
+        (a, b) =>
+          distanceKm(userLocation, telefericoPedestrianCoordinate(a)) -
+          distanceKm(userLocation, telefericoPedestrianCoordinate(b)),
+      )
+      .slice(0, 6)
+      .forEach((station) =>
+        addPair(userLocation, telefericoPedestrianCoordinate(station)),
+      );
+    [...stations]
+      .sort(
+        (a, b) =>
+          distanceKm(destination, telefericoPedestrianCoordinate(a)) -
+          distanceKm(destination, telefericoPedestrianCoordinate(b)),
+      )
+      .slice(0, 6)
+      .forEach((station) =>
+        addPair(telefericoPedestrianCoordinate(station), destination),
+      );
+
+    const pumakatariStops = transitData.pumakatariStops.features;
+    [...pumakatariStops]
+      .sort(
+        (a, b) =>
+          distanceKm(userLocation, a.geometry.coordinates) -
+          distanceKm(userLocation, b.geometry.coordinates),
+      )
+      .slice(0, 5)
+      .forEach((stop) => addPair(userLocation, stop.geometry.coordinates));
+    [...pumakatariStops]
+      .sort(
+        (a, b) =>
+          distanceKm(destination, a.geometry.coordinates) -
+          distanceKm(destination, b.geometry.coordinates),
+      )
+      .slice(0, 5)
+      .forEach((stop) => addPair(stop.geometry.coordinates, destination));
+
+    const pairs = [...uniquePairs.values()];
+    return {
+      key: pairs.map((pair) => pair.id).sort().join("|"),
+      pairs,
+    };
+  }, [selected, transitData, userLocation]);
+  const routePlan = useMemo<RoutePlan | null>(() => {
+    if (
+      !selected ||
+      !userLocation ||
+      !transitData ||
+      !accessWalkingRequest ||
+      accessRoutingResult?.key !== accessWalkingRequest.key
+    ) {
+      return null;
+    }
+    const accessRoutes = new Map(
+      accessRoutingResult.routes.map((route) => [route.id, route] as const),
+    );
     return planRestaurantRoute(
       userLocation,
       [Number(selected.longitude), Number(selected.latitude)],
       transitData,
+      (from, to) => accessRoutes.get(walkingSegmentId(from, to)),
     );
-  }, [selected, transitData, userLocation]);
-  const activeRoute = useMemo(() => {
+  }, [accessRoutingResult, accessWalkingRequest, selected, transitData, userLocation]);
+  const walkingRequest = useMemo(() => {
     if (!routePlan) return null;
+    const uniquePairs = new Map<
+      string,
+      { id: string; from: Coordinate; to: Coordinate }
+    >();
+    routePlan.options.forEach((option) =>
+      option.segments.forEach((segment) => {
+        if (
+          segment.mode !== "walk" ||
+          segment.routing === "station-connector" ||
+          segment.coordinates.length < 2
+        ) return;
+        const from = segment.coordinates[0];
+        const to = segment.coordinates.at(-1) as Coordinate;
+        const id = walkingSegmentId(from, to);
+        uniquePairs.set(id, { id, from, to });
+      }),
+    );
+    const pairs = [...uniquePairs.values()];
+    return pairs.length > 0
+      ? { key: pairs.map((pair) => pair.id).sort().join("|"), pairs }
+      : null;
+  }, [routePlan]);
+  const refinedPlan = useMemo(() => {
+    if (!routePlan) return null;
+    const streetResolved = Boolean(
+      streetRoutingResult && streetRoutingResult.key === walkingRequest?.key,
+    );
+    const streetRoutes = new Map<string, StreetRoute>(
+      streetResolved && streetRoutingResult
+        ? streetRoutingResult.routes.map((route) => [route.id, route] as const)
+        : [],
+    );
+    const options: DisplayRouteOption[] = routePlan.options.map((option) => {
+      let walkingStepIndex = 0;
+      const segments = option.segments.map<DisplayRouteSegment>((segment) => {
+        if (segment.mode !== "walk") return segment;
+        if (segment.routing === "station-connector") {
+          return { ...segment, streetRouted: true };
+        }
+        const id = walkingSegmentId(
+          segment.coordinates[0],
+          segment.coordinates.at(-1) as Coordinate,
+        );
+        const streetRoute = streetRoutes.get(id);
+        if (!streetRoute) return segment;
+        return {
+          ...segment,
+          coordinates: streetRoute.coordinates,
+          distanceKm: streetRoute.distanceKm,
+          durationMinutes: streetRoute.durationMinutes,
+          streetRouted: true,
+        };
+      });
+      const oldWalkingDistance = option.segments
+        .filter((segment) => segment.mode === "walk")
+        .reduce((total, segment) => total + segment.distanceKm, 0);
+      const oldWalkingDuration = option.segments
+        .filter((segment) => segment.mode === "walk")
+        .reduce((total, segment) => total + segment.durationMinutes, 0);
+      const newWalkingDistance = segments
+        .filter((segment) => segment.mode === "walk")
+        .reduce((total, segment) => total + segment.distanceKm, 0);
+      const newWalkingDuration = segments
+        .filter((segment) => segment.mode === "walk")
+        .reduce((total, segment) => total + segment.durationMinutes, 0);
+      const walkingSegments = segments.filter((segment) => segment.mode === "walk");
+      const steps = option.steps.map((step) => {
+        if (step.mode !== "walk") return step;
+        const walkingSegment = walkingSegments[walkingStepIndex];
+        walkingStepIndex += 1;
+        return walkingSegment?.streetRouted
+          ? {
+              ...step,
+              detail: walkingSegment.routing === "station-connector"
+                ? `${walkingSegment.distanceKm.toFixed(1)} km por el acceso`
+                : `${walkingSegment.distanceKm.toFixed(1)} km por calles`,
+            }
+          : step;
+      });
+      const distanceKm = option.distanceKm - oldWalkingDistance + newWalkingDistance;
+      const durationMinutes = Math.max(
+        1,
+        Math.round(option.durationMinutes - oldWalkingDuration + newWalkingDuration),
+      );
+      const streetComplete =
+        !streetResolved ||
+        Boolean(streetRoutingResult?.error) ||
+        segments
+          .filter((segment) => segment.mode === "walk")
+          .every((segment) => segment.streetRouted);
+      return {
+        ...option,
+        summary:
+          option.id === "walk" && segments[0]?.streetRouted
+            ? `${distanceKm.toFixed(1)} km por calles`
+            : option.summary,
+        distanceKm,
+        durationMinutes,
+        steps,
+        segments,
+        streetComplete,
+      };
+    });
+    const availableOptions = options.filter((option) => option.streetComplete);
+    const recommendationPool = availableOptions.length > 0 ? availableOptions : options;
+    const walkingDistance = (option: DisplayRouteOption) =>
+      option.segments
+        .filter((segment) => segment.mode === "walk")
+        .reduce((total, segment) => total + segment.distanceKm, 0);
+    const recommended = recommendationPool.reduce((best, option) => {
+      if (routePreference === "fastest") {
+        return option.durationMinutes < best.durationMinutes ? option : best;
+      }
+      const walkingDifference = walkingDistance(option) - walkingDistance(best);
+      if (Math.abs(walkingDifference) > 0.05) {
+        return walkingDifference < 0 ? option : best;
+      }
+      return option.durationMinutes < best.durationMinutes ? option : best;
+    });
+    return { options, recommendedId: recommended.id };
+  }, [routePlan, routePreference, streetRoutingResult, walkingRequest?.key]);
+  const activeRoute = useMemo(() => {
+    if (!refinedPlan) return null;
     return (
-      routePlan.options.find((option) => option.id === activeRouteId) ??
-      routePlan.options.find((option) => option.id === routePlan.recommendedId) ??
+      refinedPlan.options.find(
+        (option) => option.id === activeRouteId && option.streetComplete,
+      ) ??
+      refinedPlan.options.find(
+        (option) => option.id === refinedPlan.recommendedId && option.streetComplete,
+      ) ??
       null
     );
-  }, [activeRouteId, routePlan]);
+  }, [activeRouteId, refinedPlan]);
+  const streetRoutingLoading = Boolean(
+    walkingRequest && streetRoutingResult?.key !== walkingRequest.key,
+  );
+  const streetRoutingError =
+    walkingRequest && streetRoutingResult?.key === walkingRequest.key
+      ? streetRoutingResult.error
+      : undefined;
+  const streetRoutingPartial = Boolean(
+    walkingRequest &&
+      streetRoutingResult?.key === walkingRequest.key &&
+      streetRoutingResult.partial,
+  );
 
   useEffect(
     () =>
@@ -119,6 +369,84 @@ export function RestaurantMap({ restaurants }: RestaurantMapProps) {
       }),
     [],
   );
+
+  useEffect(() => {
+    if (!accessWalkingRequest) return;
+    const controller = new AbortController();
+    fetch("/api/routes/walking", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pairs: accessWalkingRequest.pairs, metricsOnly: true }),
+      signal: controller.signal,
+    })
+      .then(async (response) => {
+        const payload = (await response.json()) as {
+          routes?: StreetRoute[];
+          partial?: boolean;
+          error?: string;
+        };
+        if (!response.ok) {
+          throw new Error(payload.error ?? "No se pudieron comparar los accesos");
+        }
+        return payload;
+      })
+      .then((payload) =>
+        setAccessRoutingResult({
+          key: accessWalkingRequest.key,
+          routes: payload.routes ?? [],
+          partial: Boolean(payload.partial),
+        }),
+      )
+      .catch((error: Error) => {
+        if (error.name !== "AbortError") {
+          setAccessRoutingResult({
+            key: accessWalkingRequest.key,
+            routes: [],
+            partial: true,
+            error: error.message,
+          });
+        }
+      });
+    return () => controller.abort();
+  }, [accessWalkingRequest]);
+
+  useEffect(() => {
+    if (!walkingRequest) return;
+    const controller = new AbortController();
+    fetch("/api/routes/walking", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pairs: walkingRequest.pairs }),
+      signal: controller.signal,
+    })
+      .then(async (response) => {
+        const payload = (await response.json()) as {
+          routes?: StreetRoute[];
+          partial?: boolean;
+          error?: string;
+        };
+        if (!response.ok) throw new Error(payload.error ?? "No se pudieron trazar las calles");
+        return payload;
+      })
+      .then((payload) =>
+        setStreetRoutingResult({
+          key: walkingRequest.key,
+          routes: payload.routes ?? [],
+          partial: Boolean(payload.partial),
+        }),
+      )
+      .catch((error: Error) => {
+        if (error.name !== "AbortError") {
+          setStreetRoutingResult({
+            key: walkingRequest.key,
+            routes: [],
+            partial: true,
+            error: error.message,
+          });
+        }
+      });
+    return () => controller.abort();
+  }, [walkingRequest]);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -378,11 +706,6 @@ export function RestaurantMap({ restaurants }: RestaurantMapProps) {
       map.resize();
       setMapReady(true);
     });
-    map.on("click", () => {
-      setSelected(null);
-      setRouteOpen(false);
-    });
-
     return () => {
       window.cancelAnimationFrame(resizeFrame);
       resizeObserver.disconnect();
@@ -425,31 +748,36 @@ export function RestaurantMap({ restaurants }: RestaurantMapProps) {
     if (!map || !mapReady) return;
     const source = map.getSource("planned-route") as maplibregl.GeoJSONSource | undefined;
     if (!source) return;
-    const features = activeRoute
-      ? activeRoute.segments.map((segment) => ({
+    const features = routeOpen && activeRoute
+      ? activeRoute.segments
+          .filter((segment) => segment.mode !== "walk" || segment.streetRouted)
+          .map((segment) => ({
           type: "Feature" as const,
           properties: { mode: segment.mode, color: segment.color },
           geometry: { type: "LineString" as const, coordinates: segment.coordinates },
-        }))
+          }))
       : [];
     source.setData({ type: "FeatureCollection", features });
-    if (activeRoute) {
+    if (routeOpen && activeRoute) {
       const bounds = new maplibregl.LngLatBounds();
-      activeRoute.segments.forEach((segment) =>
-        segment.coordinates.forEach((coordinate) => bounds.extend(coordinate)),
-      );
+      activeRoute.segments
+        .filter((segment) => segment.mode !== "walk" || segment.streetRouted)
+        .forEach((segment) =>
+          segment.coordinates.forEach((coordinate) => bounds.extend(coordinate)),
+        );
       if (!bounds.isEmpty()) {
         map.fitBounds(bounds, { padding: 90, maxZoom: 15, duration: 650 });
       }
     }
-  }, [activeRoute, mapReady]);
+  }, [activeRoute, mapReady, routeOpen]);
 
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !mapReady) return;
-    setLayersVisibility(map, TELEFERICO_LAYERS, showTeleferico);
-    setLayersVisibility(map, PUMAKATARI_LAYERS, showPumakatari);
-  }, [mapReady, showPumakatari, showTeleferico]);
+    const showReferenceNetwork = !(routeOpen && activeRoute);
+    setLayersVisibility(map, TELEFERICO_LAYERS, showTeleferico && showReferenceNetwork);
+    setLayersVisibility(map, PUMAKATARI_LAYERS, showPumakatari && showReferenceNetwork);
+  }, [activeRoute, mapReady, routeOpen, showPumakatari, showTeleferico]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -465,11 +793,14 @@ export function RestaurantMap({ restaurants }: RestaurantMapProps) {
       const longitude = Number(restaurant.longitude);
       if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return;
 
+      const markerShell = document.createElement("div");
+      markerShell.className = "ubifood-map-marker-shell";
       const markerButton = document.createElement("button");
       markerButton.type = "button";
       markerButton.className = "ubifood-map-marker";
       markerButton.style.setProperty("--marker-color", restaurant.color);
       markerButton.setAttribute("aria-label", `Ver ${restaurant.name}`);
+      markerShell.appendChild(markerButton);
 
       const price = document.createElement("span");
       price.textContent = restaurant.startingPrice === null
@@ -494,7 +825,7 @@ export function RestaurantMap({ restaurants }: RestaurantMapProps) {
       });
 
       const marker = new maplibregl.Marker({
-        element: markerButton,
+        element: markerShell,
         anchor: "bottom",
       })
         .setLngLat([longitude, latitude])
@@ -616,48 +947,113 @@ export function RestaurantMap({ restaurants }: RestaurantMapProps) {
             <div className="mt-3 border-t border-black/10 pt-3">
               <div className="flex items-center justify-between gap-3">
                 <div>
-                  <p className="text-xs font-black text-[#277da1]">Ruta estimada</p>
+                  <p className="text-xs font-black text-[#277da1]">Ruta por calles y transporte</p>
                   <p className="text-sm font-black">Desde tu ubicacion</p>
                 </div>
                 <button
                   type="button"
-                  onClick={() => setRouteOpen(false)}
-                  className="h-8 rounded-md px-2 text-xs font-black text-black/50 hover:bg-black/5"
+                  onClick={() => {
+                    setRouteOpen(false);
+                    setActiveRouteId(null);
+                  }}
+                  className="inline-flex h-8 items-center gap-1 rounded-md px-2 text-xs font-black text-[#a32323] hover:bg-[#fff0ed]"
                 >
-                  Volver
+                  <X size={14} /> Cancelar viaje
                 </button>
               </div>
               {!userLocation ? (
                 <div className="mt-3 rounded-lg bg-[#f7f4ed] p-3 text-xs font-bold leading-5 text-black/60">
                   Esperando permiso de ubicacion del dispositivo...
                 </div>
-              ) : !routePlan ? (
+              ) : !refinedPlan ? (
                 <div className="mt-3 rounded-lg bg-[#f7f4ed] p-3 text-xs font-bold text-black/60">
                   Calculando alternativas...
                 </div>
               ) : (
                 <>
+                  <div
+                    className="mt-3 grid grid-cols-2 gap-1 rounded-lg bg-[#f1eee8] p-1"
+                    aria-label="Prioridad de la ruta"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setRoutePreference("less-walking");
+                        setActiveRouteId(null);
+                      }}
+                      aria-pressed={routePreference === "less-walking"}
+                      className={`inline-flex h-9 items-center justify-center gap-2 rounded-md px-2 text-[11px] font-black ${
+                        routePreference === "less-walking"
+                          ? "bg-white text-[#211c18] shadow-sm"
+                          : "text-black/45"
+                      }`}
+                    >
+                      <Footprints size={15} /> Caminar menos
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setRoutePreference("fastest");
+                        setActiveRouteId(null);
+                      }}
+                      aria-pressed={routePreference === "fastest"}
+                      className={`inline-flex h-9 items-center justify-center gap-2 rounded-md px-2 text-[11px] font-black ${
+                        routePreference === "fastest"
+                          ? "bg-white text-[#211c18] shadow-sm"
+                          : "text-black/45"
+                      }`}
+                    >
+                      <Clock3 size={15} /> Mas rapida
+                    </button>
+                  </div>
                   <div className="mt-3 grid grid-cols-3 gap-1 rounded-lg bg-[#f1eee8] p-1">
-                    {routePlan.options.map((option) => (
+                    {refinedPlan.options.map((option) => (
                       <button
                         key={option.id}
                         type="button"
                         onClick={() => setActiveRouteId(option.id)}
+                        disabled={!option.streetComplete}
                         aria-pressed={activeRoute?.id === option.id}
-                        className={`relative flex min-h-14 flex-col items-center justify-center rounded-md px-1 text-[10px] font-black ${
+                        className={`relative flex min-h-16 flex-col items-center justify-center rounded-md px-1 text-[10px] font-black disabled:cursor-not-allowed disabled:opacity-35 ${
                           activeRoute?.id === option.id
                             ? "bg-white text-[#211c18] shadow-sm"
                             : "text-black/50"
                         }`}
                       >
                         {option.id === "walk" ? <Footprints size={17} /> : option.id === "teleferico" ? <CableCar size={17} /> : <BusFront size={17} />}
-                        <span className="mt-1">{option.durationMinutes} min</span>
-                        {routePlan.recommendedId === option.id && (
+                        <span className="mt-1">
+                          {option.streetComplete ? `${option.durationMinutes} min` : "Sin acceso"}
+                        </span>
+                        {option.streetComplete && (
+                          <span className="mt-0.5 text-[9px] font-bold text-black/40">
+                            {option.segments
+                              .filter((segment) => segment.mode === "walk")
+                              .reduce((total, segment) => total + segment.distanceKm, 0)
+                              .toFixed(1)}{" "}
+                            km a pie
+                          </span>
+                        )}
+                        {refinedPlan.recommendedId === option.id && (
                           <span className="absolute -top-2 rounded bg-[#43aa8b] px-1.5 py-0.5 text-[8px] text-white">Mejor</span>
                         )}
                       </button>
                     ))}
                   </div>
+                  {streetRoutingLoading && (
+                    <p className="mt-2 flex items-center gap-2 text-[11px] font-bold text-[#277da1]">
+                      <LoaderCircle size={14} className="animate-spin" /> Trazando los caminos a pie...
+                    </p>
+                  )}
+                  {streetRoutingError && (
+                    <p className="mt-2 text-[11px] font-bold text-[#8a5a00]">
+                      Conexion inestable: mostramos una estimacion y reintentaremos al recalcular.
+                    </p>
+                  )}
+                  {streetRoutingPartial && !streetRoutingError && (
+                    <p className="mt-2 text-[11px] font-bold text-[#8a5a00]">
+                      Un acceso peatonal no conecta con una calle. Revisa la ubicacion exacta del restaurante.
+                    </p>
+                  )}
                   {activeRoute && (
                     <div className="mt-3">
                       <div className="flex items-center justify-between gap-2">
@@ -677,7 +1073,7 @@ export function RestaurantMap({ restaurants }: RestaurantMapProps) {
                         ))}
                       </ol>
                       <p className="mt-3 text-[10px] font-semibold leading-4 text-black/40">
-                        Referencia MVP basada en distancia y trazados disponibles; confirma horarios y paradas antes de viajar.
+                        Los tramos a pie siguen calles de OpenStreetMap. Confirma horarios y operacion del transporte antes de viajar.
                       </p>
                     </div>
                   )}
