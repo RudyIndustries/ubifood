@@ -5,6 +5,8 @@ import {
   BookOpen,
   BusFront,
   CableCar,
+  ChevronDown,
+  ChevronUp,
   Clock3,
   Footprints,
   Leaf,
@@ -122,6 +124,7 @@ export function RestaurantMap({ restaurants }: RestaurantMapProps) {
   const [transitData, setTransitData] = useState<TransitData | null>(null);
   const [activeRouteId, setActiveRouteId] = useState<RouteMode | null>(null);
   const [routeOpen, setRouteOpen] = useState(false);
+  const [mobilePanelExpanded, setMobilePanelExpanded] = useState(false);
   const [routePreference, setRoutePreference] =
     useState<RoutePreference>("less-walking");
   const [menuOpen, setMenuOpen] = useState(false);
@@ -819,6 +822,7 @@ export function RestaurantMap({ restaurants }: RestaurantMapProps) {
         event.stopPropagation();
         setSelected(restaurant);
         setRouteOpen(false);
+        setMobilePanelExpanded(false);
         setMenuOpen(false);
         setActiveRouteId(null);
         map.easeTo({ center: [longitude, latitude], zoom: Math.max(map.getZoom(), 14) });
@@ -898,7 +902,28 @@ export function RestaurantMap({ restaurants }: RestaurantMapProps) {
         </div>
       )}
       {selected && (
-        <article className="ubifood-panel-rise absolute inset-x-3 bottom-3 max-h-[calc(100%-24px)] overflow-y-auto rounded-lg bg-white p-4 shadow-2xl sm:left-3 sm:right-auto sm:w-[390px]">
+        <article
+          className={`ubifood-panel-rise absolute inset-x-2 bottom-2 overscroll-contain overflow-y-auto rounded-lg bg-white p-4 shadow-2xl transition-[max-height] duration-300 sm:inset-x-auto sm:bottom-3 sm:left-3 sm:max-h-[calc(100%-24px)] sm:w-[390px] ${
+            mobilePanelExpanded
+              ? "max-h-[76%]"
+              : routeOpen
+                ? "max-h-[44%]"
+                : "max-h-[36%]"
+          }`}
+        >
+          <div className="sticky -top-4 z-10 -mx-4 -mt-4 mb-2 flex justify-center bg-white/95 py-1.5 backdrop-blur sm:hidden">
+            <button
+              type="button"
+              onClick={() => setMobilePanelExpanded((expanded) => !expanded)}
+              aria-expanded={mobilePanelExpanded}
+              aria-label={mobilePanelExpanded ? "Minimizar panel de ruta" : "Ampliar panel de ruta"}
+              title={mobilePanelExpanded ? "Minimizar panel" : "Ampliar panel"}
+              className="ubifood-icon-button flex h-7 items-center gap-2 rounded-md px-3 text-[10px] font-black text-black/50 hover:bg-black/5"
+            >
+              <span className="h-1 w-9 rounded-full bg-black/15" />
+              {mobilePanelExpanded ? <ChevronDown size={15} /> : <ChevronUp size={15} />}
+            </button>
+          </div>
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
               <p className="text-xs font-black" style={{ color: selected.color }}>{selected.category}</p>
@@ -954,6 +979,7 @@ export function RestaurantMap({ restaurants }: RestaurantMapProps) {
                   type="button"
                   onClick={() => {
                     setRouteOpen(false);
+                    setMobilePanelExpanded(false);
                     setActiveRouteId(null);
                   }}
                   className="inline-flex h-8 items-center gap-1 rounded-md px-2 text-xs font-black text-[#a32323] hover:bg-[#fff0ed]"

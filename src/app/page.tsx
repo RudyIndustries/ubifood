@@ -3,6 +3,7 @@ import Link from "next/link";
 import {
   ArrowRight,
   CableCar,
+  Download,
   Leaf,
   MapPinned,
   Search,
@@ -110,7 +111,7 @@ export default function Home() {
             Encuentra comida cerca, compara precios y descubre cómo llegar sin perder tiempo.
           </p>
 
-          <div className="mt-8 flex w-full max-w-md flex-col gap-3 sm:flex-row sm:justify-center">
+          <div className="mt-8 grid w-full max-w-2xl gap-3 sm:grid-cols-3">
             <Link
               href="/auth/login"
               className="ubifood-action inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-lg bg-[#f36f21] px-5 text-sm font-black text-white"
@@ -123,6 +124,13 @@ export default function Home() {
             >
               Registrarme
             </Link>
+            <a
+              href="/downloads/UBIFOOD.apk"
+              download="UBIFOOD.apk"
+              className="ubifood-action inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-white px-5 text-sm font-black text-[#171a17]"
+            >
+              <Download size={18} /> Descargar APK
+            </a>
           </div>
 
           <div className="ubifood-stagger mt-9 flex flex-wrap justify-center gap-2 text-xs font-black text-white/75">

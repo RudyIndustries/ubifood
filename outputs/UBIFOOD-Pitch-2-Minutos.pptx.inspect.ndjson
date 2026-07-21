@@ -1,0 +1,105 @@
+{"kind":"deck","id":"pr/g1nxwu","name":"Deck"}
+{"kind":"layout","layoutId":"0acd12a3-aef1-4c3d-9c5b-10d98075aadc","name":"Master","type":"master"}
+{"kind":"layout","layoutId":"0ada89bd-0b01-4127-bb27-bc4c905d32e2","name":"Title Slide","type":"title"}
+{"kind":"slide","id":"sl/3c1ztu","slide":1,"title":"UBIFOOD","textShapes":4}
+{"kind":"shape","id":"sh/zyxkbmho","slide":1,"name":"dark-overlay","bbox":[0,0,1280,720]}
+{"kind":"shape","id":"sh/exojih03","slide":1,"name":"orange-rail","bbox":[0,0,12,720]}
+{"kind":"shape","id":"sh/dwf29czy","slide":1,"name":"color-1","bbox":[12,0,8,144]}
+{"kind":"shape","id":"sh/sv61g7id","slide":1,"name":"color-2","bbox":[12,144,8,144]}
+{"kind":"shape","id":"sh/raxk72hs","slide":1,"name":"color-3","bbox":[12,288,8,144]}
+{"kind":"shape","id":"sh/q9ojex07","slide":1,"name":"color-4","bbox":[12,432,8,288]}
+{"kind":"textbox","id":"sh/47m1c7i1","slide":1,"name":"title","text":"UBIFOOD","textPreview":"UBIFOOD","textChars":7,"textLines":1,"bbox":[82,238,820,96]}
+{"kind":"textbox","id":"sh/elofih8v","slide":1,"name":"subtitle","text":"Comida cercana. Rutas claras. Menos desperdicio.","textPreview":"Comida cercana. Rutas claras. Menos desperdicio.","textChars":48,"textLines":1,"bbox":[86,344,900,76]}
+{"kind":"shape","id":"sh/fmxgrm9g","slide":1,"name":"title-rule","bbox":[86,445,170,7]}
+{"kind":"textbox","id":"sh/0n6xkrq1","slide":1,"name":"context","text":"MVP para la ciudad de La Paz, Bolivia","textPreview":"MVP para la ciudad de La Paz, Bolivia","textChars":37,"textLines":1,"bbox":[86,482,720,38]}
+{"kind":"textbox","id":"sh/1ofytwr6","slide":1,"name":"url","text":"ubifood-livid.vercel.app","textPreview":"ubifood-livid.vercel.app","textChars":24,"textLines":1,"bbox":[86,606,560,30]}
+{"kind":"image","id":"im/943elwz6","slide":1,"name":"","geometry":"rect","alt":"La Paz y el Illimani","bbox":[0,0,1280,720]}
+{"kind":"image","id":"im/cvadk7id","slide":1,"name":"","geometry":"roundRect","alt":"Logo La Paz","bbox":[84,68,168,118]}
+{"kind":"notes","id":"nt/3c1ztu","slide":1,"text":"Buenas tardes. Ubifood es una plataforma pensada para La Paz que reúne comida cercana, rutas urbanas y ofertas contra el desperdicio. Nuestro objetivo es ayudar a decidir qué comer y cómo llegar, desde una sola experiencia."}
+{"kind":"slide","id":"sl/iq47mk","slide":2,"title":"TIEMPO PERDIDO","textShapes":10}
+{"kind":"shape","id":"sh/c36lszq5","slide":2,"name":"image-overlay","bbox":[0,0,490,720]}
+{"kind":"shape","id":"sh/x4f2147q","slide":2,"name":"orange-band","bbox":[0,610,490,110]}
+{"kind":"textbox","id":"sh/2x43mp83","slide":2,"name":"problem-callout","text":"TIEMPO PERDIDO\n+ ALIMENTOS DESPERDICIADOS","textPreview":"TIEMPO PERDIDO | + ALIMENTOS DESPERDICIADOS","textChars":41,"textLines":2,"bbox":[58,618,375,78]}
+{"kind":"shape","id":"sh/nydkvupo","slide":2,"name":"accent-0","bbox":[80,54,64,8]}
+{"kind":"shape","id":"sh/ozmlozq9","slide":2,"name":"accent-1","bbox":[144,54,64,8]}
+{"kind":"shape","id":"sh/p0v2x47e","slide":2,"name":"accent-2","bbox":[208,54,64,8]}
+{"kind":"shape","id":"sh/e9k3ip8r","slide":2,"name":"accent-3","bbox":[272,54,64,8]}
+{"kind":"shape","id":"sh/fadkrupc","slide":2,"name":"accent-4","bbox":[336,54,64,8]}
+{"kind":"textbox","id":"sh/7idgbu9k","slide":2,"name":"eyebrow","text":"EL PROBLEMA","textPreview":"EL PROBLEMA","textChars":11,"textLines":1,"bbox":[560,74,280,28]}
+{"kind":"textbox","id":"sh/mh4f2psz","slide":2,"name":"headline","text":"La oferta existe; encontrarla a tiempo es lo difícil.","textPreview":"La oferta existe; encontrarla a tiempo es lo difícil.","textChars":53,"textLines":1,"bbox":[560,118,640,126]}
+{"kind":"textbox","id":"sh/9kvyd4rq","slide":2,"name":"number-one","text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[560,294,70,46]}
+{"kind":"textbox","id":"sh/8jmx4za5","slide":2,"name":"citizen-title","text":"Para quien busca comida","textPreview":"Para quien busca comida","textChars":23,"textLines":1,"bbox":[650,294,460,40]}
+{"kind":"textbox","id":"sh/vmdgfu9g","slide":2,"name":"citizen-copy","text":"Restaurantes, precios, distancias y rutas aparecen dispersos. Elegir rápido cuesta tiempo.","textPreview":"Restaurantes, precios, distancias y rutas aparecen dispersos. Elegir rápido cuesta tiempo.","textChars":90,"textLines":1,"bbox":[650,342,500,82]}
+{"kind":"shape","id":"sh/ul4f69sv","slide":2,"name":"divider","bbox":[560,454,590,2]}
+{"kind":"textbox","id":"sh/h8fyh4rm","slide":2,"name":"number-two","text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[560,485,70,46]}
+{"kind":"textbox","id":"sh/w76x8za1","slide":2,"name":"business-title","text":"Para los negocios","textPreview":"Para los negocios","textChars":17,"textLines":1,"bbox":[650,485,460,40]}
+{"kind":"textbox","id":"sh/bqtw3a9c","slide":2,"name":"business-copy","text":"Los excedentes del día no tienen un canal inmediato para convertirse en una última venta.","textPreview":"Los excedentes del día no tienen un canal inmediato para convertirse en una última venta.","textChars":89,"textLines":1,"bbox":[650,533,500,82]}
+{"kind":"textbox","id":"sh/qpkfa5sr","slide":2,"name":"footer-2","text":"UBIFOOD  /  LA PAZ  /  02","textPreview":"UBIFOOD  /  LA PAZ  /  02","textChars":25,"textLines":1,"bbox":[80,674,1120,22]}
+{"kind":"image","id":"im/mdwb698n","slide":2,"name":"","geometry":"rect","alt":"La Paz de noche","bbox":[0,0,490,720]}
+{"kind":"notes","id":"nt/iq47mk","slide":2,"text":"Hoy la oferta gastronómica de pequeños y medianos negocios está dispersa. El estudiante o ciudadano pierde tiempo comparando lugares, precios y distancias. Al mismo tiempo, los comercios terminan el día con excedentes que no tienen un canal rápido de venta. Ubifood conecta ambos problemas: tiempo perdido y alimentos desperdiciados."}
+{"kind":"slide","id":"sl/jqp12e","slide":3,"title":"LA EXPERIENCIA","textShapes":15}
+{"kind":"shape","id":"sh/fylsb294","slide":3,"name":"accent-0","bbox":[80,54,64,8]}
+{"kind":"shape","id":"sh/gzutknqp","slide":3,"name":"accent-1","bbox":[144,54,64,8]}
+{"kind":"shape","id":"sh/103udsra","slide":3,"name":"accent-2","bbox":[208,54,64,8]}
+{"kind":"shape","id":"sh/21cbmx8f","slide":3,"name":"accent-3","bbox":[272,54,64,8]}
+{"kind":"shape","id":"sh/32lcf290","slide":3,"name":"accent-4","bbox":[336,54,64,8]}
+{"kind":"textbox","id":"sh/o3uto7ql","slide":3,"name":"eyebrow","text":"LA EXPERIENCIA","textPreview":"LA EXPERIENCIA","textChars":14,"textLines":1,"bbox":[80,76,280,28]}
+{"kind":"textbox","id":"sh/po3uhcr6","slide":3,"name":"headline","text":"Del plato a la puerta, en una sola decisión.","textPreview":"Del plato a la puerta, en una sola decisión.","textChars":44,"textLines":1,"bbox":[80,116,1080,62]}
+{"kind":"shape","id":"sh/i58badsb","slide":3,"name":"step-dot-1","bbox":[82,224,48,48]}
+{"kind":"textbox","id":"sh/j6hs3i9w","slide":3,"name":"step-number-1","text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[82,231,48,34]}
+{"kind":"textbox","id":"sh/3a1gn6xo","slide":3,"name":"step-title-1","text":"Busca","textPreview":"Busca","textChars":5,"textLines":1,"bbox":[150,223,230,32]}
+{"kind":"textbox","id":"sh/29sfu1w3","slide":3,"name":"step-copy-1","text":"Restaurante, comida, zona o precio.","textPreview":"Restaurante, comida, zona o precio.","textChars":35,"textLines":1,"bbox":[150,258,285,48]}
+{"kind":"shape","id":"sh/pc3ypgfu","slide":3,"name":"step-dot-2","bbox":[82,320,48,48]}
+{"kind":"textbox","id":"sh/obahwbe9","slide":3,"name":"step-number-2","text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[82,327,48,34]}
+{"kind":"textbox","id":"sh/f61gj6xs","slide":3,"name":"step-title-2","text":"Compara","textPreview":"Compara","textChars":7,"textLines":1,"bbox":[150,319,230,32]}
+{"kind":"textbox","id":"sh/e5sfq1w7","slide":3,"name":"step-copy-2","text":"Menús, disponibilidad y ofertas de rescate.","textPreview":"Menús, disponibilidad y ofertas de rescate.","textChars":43,"textLines":1,"bbox":[150,354,285,48]}
+{"kind":"shape","id":"sh/18jylwfy","slide":3,"name":"step-dot-3","bbox":[82,416,48,48]}
+{"kind":"textbox","id":"sh/g7axsbed","slide":3,"name":"step-number-3","text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[82,423,48,34]}
+{"kind":"textbox","id":"sh/r2hgfmxg","slide":3,"name":"step-title-3","text":"Planea","textPreview":"Planea","textChars":6,"textLines":1,"bbox":[150,415,230,32]}
+{"kind":"textbox","id":"sh/618fmhwv","slide":3,"name":"step-copy-3","text":"Caminata, Teleférico y PumaKatari.","textPreview":"Caminata, Teleférico y PumaKatari.","textChars":34,"textLines":1,"bbox":[150,450,285,48]}
+{"kind":"shape","id":"sh/udozyh03","slide":3,"name":"step-dot-4","bbox":[82,512,48,48]}
+{"kind":"textbox","id":"sh/vehg7mho","slide":3,"name":"step-number-4","text":"4","textPreview":"4","textChars":1,"textLines":1,"bbox":[82,519,48,34]}
+{"kind":"textbox","id":"sh/wzqh0rit","slide":3,"name":"step-title-4","text":"Prepárate","textPreview":"Prepárate","textChars":9,"textLines":1,"bbox":[150,511,230,32]}
+{"kind":"textbox","id":"sh/h0zy9wze","slide":3,"name":"step-copy-4","text":"Índice UV y recomendación visual.","textPreview":"Índice UV y recomendación visual.","textChars":33,"textLines":1,"bbox":[150,546,285,48]}
+{"kind":"shape","id":"sh/i18z210z","slide":3,"name":"screenshot-shadow","bbox":[470,208,730,424]}
+{"kind":"textbox","id":"sh/43qh4ri5","slide":3,"name":"footer-3","text":"UBIFOOD  /  LA PAZ  /  03","textPreview":"UBIFOOD  /  LA PAZ  /  03","textChars":25,"textLines":1,"bbox":[80,674,1120,22]}
+{"kind":"image","id":"im/4nm54vux","slide":3,"name":"","geometry":"roundRect","alt":"Mapa y planificador de rutas Ubifood","bbox":[458,196,730,424]}
+{"kind":"notes","id":"nt/jqp12e","slide":3,"text":"En el módulo cliente, la persona busca restaurantes, platos o zonas y filtra por precio. Puede abrir un menú interactivo, revisar ubicación y ver promociones de rescate. Después, el planificador combina caminata, Mi Teleférico y PumaKatari, incluyendo transbordos, hasta dejar al usuario lo más cerca posible del restaurante. También consulta el índice UV y recomienda protección o paraguas."}
+{"kind":"slide","id":"sl/hums9m","slide":4,"title":"NEGOCIOS + ADMINISTRACIÓN","textShapes":7}
+{"kind":"shape","id":"sh/x8jexsfq","slide":4,"name":"green-rail","bbox":[0,0,14,720]}
+{"kind":"shape","id":"sh/alsv2xgz","slide":4,"name":"accent-0","bbox":[80,54,64,8]}
+{"kind":"shape","id":"sh/vm1wv2xk","slide":4,"name":"accent-1","bbox":[144,54,64,8]}
+{"kind":"shape","id":"sh/4bud87y1","slide":4,"name":"accent-2","bbox":[208,54,64,8]}
+{"kind":"shape","id":"sh/5c3e1cfm","slide":4,"name":"accent-3","bbox":[272,54,64,8]}
+{"kind":"shape","id":"sh/i9cv6xgb","slide":4,"name":"accent-4","bbox":[336,54,64,8]}
+{"kind":"textbox","id":"sh/jalwz2xg","slide":4,"name":"eyebrow","text":"NEGOCIOS + ADMINISTRACIÓN","textPreview":"NEGOCIOS + ADMINISTRACIÓN","textChars":25,"textLines":1,"bbox":[80,76,380,28]}
+{"kind":"textbox","id":"sh/0fqdw3yx","slide":4,"name":"headline","text":"Los excedentes se convierten en oportunidades.","textPreview":"Los excedentes se convierten en oportunidades.","textChars":46,"textLines":1,"bbox":[80,122,720,116]}
+{"kind":"textbox","id":"sh/lgzup8fi","slide":4,"name":"business-copy","text":"Cada comercio controla su ficha, horarios, ubicación, menú, disponibilidad y promociones Cero Desperdicio.","textPreview":"Cada comercio controla su ficha, horarios, ubicación, menú, disponibilidad y promociones Cero Desperdicio.","textChars":106,"textLines":1,"bbox":[82,276,580,98]}
+{"kind":"shape","id":"sh/xkfm1k3q","slide":4,"name":"trust-rule","bbox":[82,410,470,3]}
+{"kind":"textbox","id":"sh/wj658fm5","slide":4,"name":"trust-title","text":"Información confiable","textPreview":"Información confiable","textChars":21,"textLines":1,"bbox":[82,444,420,42]}
+{"kind":"textbox","id":"sh/vix4zalk","slide":4,"name":"trust-copy","text":"El administrador aprueba los negocios antes de publicarlos para clientes.","textPreview":"El administrador aprueba los negocios antes de publicarlos para clientes.","textChars":73,"textLines":1,"bbox":[82,494,510,70]}
+{"kind":"shape","id":"sh/ahon654z","slide":4,"name":"logo-field","bbox":[790,116,350,420]}
+{"kind":"textbox","id":"sh/k765cfm1","slide":4,"name":"zero-waste","text":"CERO\nDESPERDICIO","textPreview":"CERO | DESPERDICIO","textChars":16,"textLines":2,"bbox":[830,406,270,76]}
+{"kind":"textbox","id":"sh/jmx43alg","slide":4,"name":"footer-4","text":"UBIFOOD  /  LA PAZ  /  04","textPreview":"UBIFOOD  /  LA PAZ  /  04","textChars":25,"textLines":1,"bbox":[80,674,1120,22]}
+{"kind":"image","id":"im/ux8nq98r","slide":4,"name":"","geometry":"rect","alt":"Marca de La Paz","bbox":[830,190,270,190]}
+{"kind":"notes","id":"nt/hums9m","slide":4,"text":"Para el negocio, Ubifood ofrece un panel para administrar datos, horarios, ubicación, menú, disponibilidad diaria y promociones Cero Desperdicio. El administrador aprueba los comercios antes de publicarlos. Así, el cliente recibe información confiable y el restaurante obtiene un canal directo para vender más y reducir pérdidas."}
+{"kind":"slide","id":"sl/h9jafw","slide":5,"title":"UN MVP LISTO PARA CRECER","textShapes":9}
+{"kind":"shape","id":"sh/l4rmx872","slide":5,"name":"accent-0","bbox":[80,54,64,8]}
+{"kind":"shape","id":"sh/y10nmtob","slide":5,"name":"accent-1","bbox":[144,54,64,8]}
+{"kind":"shape","id":"sh/z294vypw","slide":5,"name":"accent-2","bbox":[208,54,64,8]}
+{"kind":"shape","id":"sh/8r25s36d","slide":5,"name":"accent-3","bbox":[272,54,64,8]}
+{"kind":"shape","id":"sh/9sbm18ny","slide":5,"name":"accent-4","bbox":[336,54,64,8]}
+{"kind":"textbox","id":"sh/m50nqto7","slide":5,"name":"eyebrow","text":"UN MVP LISTO PARA CRECER","textPreview":"UN MVP LISTO PARA CRECER","textChars":24,"textLines":1,"bbox":[80,76,360,28]}
+{"kind":"textbox","id":"sh/7qt4zyps","slide":5,"name":"headline","text":"Una base de código. Tres formas de llegar.","textPreview":"Una base de código. Tres formas de llegar.","textChars":42,"textLines":1,"bbox":[80,122,880,66]}
+{"kind":"textbox","id":"sh/pw7mpo7u","slide":5,"name":"mode-WEB","text":"WEB","textPreview":"WEB","textChars":3,"textLines":1,"bbox":[430,226,130,48]}
+{"kind":"textbox","id":"sh/5o7ml07u","slide":5,"name":"mode-detail-WEB","text":"Next.js + Vercel","textPreview":"Next.js + Vercel","textChars":16,"textLines":1,"bbox":[585,231,500,44]}
+{"kind":"shape","id":"sh/43y5sv69","slide":5,"name":"mode-divider-0","bbox":[430,298,650,2]}
+{"kind":"textbox","id":"sh/3254jqpo","slide":5,"name":"mode-PWA","text":"PWA","textPreview":"PWA","textChars":3,"textLines":1,"bbox":[430,338,130,48]}
+{"kind":"textbox","id":"sh/i1w3qloj","slide":5,"name":"mode-detail-PWA","text":"Instalable desde el navegador","textPreview":"Instalable desde el navegador","textChars":29,"textLines":1,"bbox":[585,343,500,44]}
+{"kind":"shape","id":"sh/ds7mp0n6","slide":5,"name":"mode-divider-1","bbox":[430,410,650,2]}
+{"kind":"textbox","id":"sh/cry5wv6l","slide":5,"name":"mode-APK","text":"APK","textPreview":"APK","textChars":3,"textLines":1,"bbox":[430,450,130,48]}
+{"kind":"textbox","id":"sh/rqp4nq50","slide":5,"name":"mode-detail-APK","text":"Android mediante Capacitor","textPreview":"Android mediante Capacitor","textChars":26,"textLines":1,"bbox":[585,455,500,44]}
+{"kind":"shape","id":"sh/qpgnulof","slide":5,"name":"closing-band","bbox":[0,586,1280,134]}
+{"kind":"textbox","id":"sh/1wrmtkn2","slide":5,"name":"closing","text":"UBIFOOD conecta gastronomía, movilidad y sostenibilidad para La Paz.","textPreview":"UBIFOOD conecta gastronomía, movilidad y sostenibilidad para La Paz.","textChars":68,"textLines":1,"bbox":[80,620,1110,60]}
+{"kind":"image","id":"im/lgfydgzy","slide":5,"name":"","geometry":"roundRect","alt":"Icono de la aplicación Ubifood","bbox":[82,236,260,260]}
+{"kind":"notes","id":"nt/h9jafw","slide":5,"text":"El MVP usa Next.js, Supabase y Vercel. Funciona como web, se instala como PWA y ya cuenta con un APK Android mediante Capacitor. Esta arquitectura reduce costos porque mantiene una sola base de código y permite integrarse en una futura super app. Ubifood conecta gastronomía, movilidad y sostenibilidad para La Paz."}

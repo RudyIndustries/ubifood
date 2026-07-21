@@ -1,0 +1,14 @@
+DIAPOSITIVA 1 - UBIFOOD
+Buenas tardes. Ubifood es una plataforma pensada para La Paz que reúne comida cercana, rutas urbanas y ofertas contra el desperdicio. Nuestro objetivo es ayudar a decidir qué comer y cómo llegar, desde una sola experiencia.
+
+DIAPOSITIVA 2 - EL PROBLEMA
+Hoy la oferta gastronómica de pequeños y medianos negocios está dispersa. El estudiante o ciudadano pierde tiempo comparando lugares, precios y distancias. Al mismo tiempo, los comercios terminan el día con excedentes que no tienen un canal rápido de venta. Ubifood conecta ambos problemas: tiempo perdido y alimentos desperdiciados.
+
+DIAPOSITIVA 3 - LA EXPERIENCIA
+En el módulo cliente, la persona busca restaurantes, platos o zonas y filtra por precio. Puede abrir un menú interactivo, revisar ubicación y ver promociones de rescate. Después, el planificador combina caminata, Mi Teleférico y PumaKatari, incluyendo transbordos, hasta dejar al usuario lo más cerca posible del restaurante. También consulta el índice UV y recomienda protección o paraguas.
+
+DIAPOSITIVA 4 - NEGOCIOS Y ADMINISTRACIÓN
+Para el negocio, Ubifood ofrece un panel para administrar datos, horarios, ubicación, menú, disponibilidad diaria y promociones Cero Desperdicio. El administrador aprueba los comercios antes de publicarlos. Así, el cliente recibe información confiable y el restaurante obtiene un canal directo para vender más y reducir pérdidas.
+
+DIAPOSITIVA 5 - VIABILIDAD Y CIERRE
+El MVP usa Next.js, Supabase y Vercel. Funciona como web, se instala como PWA y ya cuenta con un APK Android mediante Capacitor. Esta arquitectura reduce costos porque mantiene una sola base de código y permite integrarse en una futura super app. Ubifood conecta gastronomía, movilidad y sostenibilidad para La Paz.

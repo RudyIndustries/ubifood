@@ -20,7 +20,7 @@ estatico ni incluir la clave secreta de Supabase.
 En PowerShell, desde la carpeta del proyecto:
 
 ```powershell
-$env:CAPACITOR_SERVER_URL="https://TU-PROYECTO.vercel.app"
+$env:CAPACITOR_SERVER_URL="https://ubifood-livid.vercel.app"
 npm run cap:sync
 npm run cap:open
 ```
@@ -40,7 +40,7 @@ crea o selecciona un `keystore` y guarda sus contrasenas fuera de Git.
 Cada vez que cambie configuracion nativa o plugins, vuelve a ejecutar:
 
 ```powershell
-$env:CAPACITOR_SERVER_URL="https://TU-PROYECTO.vercel.app"
+$env:CAPACITOR_SERVER_URL="https://ubifood-livid.vercel.app"
 npm run cap:sync
 ```
 
