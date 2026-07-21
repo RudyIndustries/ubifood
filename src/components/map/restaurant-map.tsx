@@ -326,11 +326,19 @@ export function RestaurantMap({ restaurants }: RestaurantMapProps) {
     });
     const availableOptions = options.filter((option) => option.streetComplete);
     const recommendationPool = availableOptions.length > 0 ? availableOptions : options;
+    const fastestDuration = Math.min(
+      ...recommendationPool.map((option) => option.durationMinutes),
+    );
+    const balancedPool = routePreference === "less-walking"
+      ? recommendationPool.filter(
+          (option) => option.durationMinutes <= fastestDuration * 1.6 + 5,
+        )
+      : recommendationPool;
     const walkingDistance = (option: DisplayRouteOption) =>
       option.segments
         .filter((segment) => segment.mode === "walk")
         .reduce((total, segment) => total + segment.distanceKm, 0);
-    const recommended = recommendationPool.reduce((best, option) => {
+    const recommended = balancedPool.reduce((best, option) => {
       if (routePreference === "fastest") {
         return option.durationMinutes < best.durationMinutes ? option : best;
       }

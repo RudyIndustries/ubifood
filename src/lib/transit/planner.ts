@@ -87,7 +87,10 @@ type StationNode = {
 const WALKING_SPEED_KMH = 4.5;
 const TELEFERICO_SPEED_KMH = 16;
 const BUS_SPEED_KMH = 17;
-const WALKING_PRIORITY_MULTIPLIER = 3;
+const WALKING_PRIORITY_MULTIPLIER = 2;
+const TELEFERICO_ACCESS_CANDIDATES = 6;
+const TELEFERICO_MAX_TRANSFER_KM = 0.2;
+const TELEFERICO_TRANSFER_MINUTES = 5;
 
 const LINE_COLORS: Record<string, string> = {
   roja: "#e31a1c",
@@ -276,7 +279,7 @@ function createTelefericoOption(
     stationNodes.slice(index + 1).forEach((candidate) => {
       if (station.line === candidate.line) return;
       const transferDistance = distanceKm(station.coordinate, candidate.coordinate);
-      if (transferDistance > 0.35) return;
+      if (transferDistance > TELEFERICO_MAX_TRANSFER_KM) return;
       const edge = {
         line: candidate.line,
         color: "#211c18",
@@ -304,22 +307,8 @@ function createTelefericoOption(
       walkingMetric(a.accessCoordinate, destination, walkingLookup).distanceKm -
       walkingMetric(b.accessCoordinate, destination, walkingLookup).distanceKm,
   );
-  const closestStart = rankedFromOrigin[0];
-  const closestEnd = rankedFromDestination[0];
-  const starts = rankedFromOrigin
-    .filter(
-      (station) =>
-        station.id === closestStart.id ||
-        distanceKm(station.coordinate, closestStart.coordinate) <= 0.2,
-    )
-    .slice(0, 6);
-  const ends = rankedFromDestination
-    .filter(
-      (station) =>
-        station.id === closestEnd.id ||
-        distanceKm(station.coordinate, closestEnd.coordinate) <= 0.2,
-    )
-    .slice(0, 6);
+  const starts = rankedFromOrigin.slice(0, TELEFERICO_ACCESS_CANDIDATES);
+  const ends = rankedFromDestination.slice(0, TELEFERICO_ACCESS_CANDIDATES);
   let best:
     | {
         start: StationNode;
@@ -348,7 +337,8 @@ function createTelefericoOption(
       unvisited.delete(current);
       (graph.get(current) ?? []).forEach((edge) => {
         const weight = edge.kind === "transfer"
-          ? walkingMinutes(edge.distanceKm) * WALKING_PRIORITY_MULTIPLIER + 3
+          ? walkingMinutes(edge.distanceKm) * WALKING_PRIORITY_MULTIPLIER +
+            TELEFERICO_TRANSFER_MINUTES
           : (edge.distanceKm / TELEFERICO_SPEED_KMH) * 60 + 2;
         const nextDistance = (distances.get(current) ?? 0) + weight;
         if (nextDistance < (distances.get(edge.to) ?? Infinity)) {
@@ -449,7 +439,7 @@ function createTelefericoOption(
     (total, edge) =>
       total +
       (edge.kind === "transfer"
-        ? walkingMinutes(edge.distanceKm) + 3
+        ? walkingMinutes(edge.distanceKm) + TELEFERICO_TRANSFER_MINUTES
         : (edge.distanceKm / TELEFERICO_SPEED_KMH) * 60 + 2),
     0,
   );
@@ -538,7 +528,9 @@ function createTelefericoOption(
             color: "#211c18",
             coordinates: piece.coordinates,
             distanceKm: piece.distanceKm,
-            durationMinutes: roundedMinutes(walkingMinutes(piece.distanceKm) + 3),
+            durationMinutes: roundedMinutes(
+              walkingMinutes(piece.distanceKm) + TELEFERICO_TRANSFER_MINUTES,
+            ),
           };
         }
         const groupDistance = pathDistance(piece.coordinates);
