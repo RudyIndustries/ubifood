@@ -23,13 +23,13 @@ type MobileBottomNavProps = {
 const roleItems = {
   cliente: [
     { href: "/cliente#explorar", label: "Explorar", Icon: Compass },
-    { href: "/cliente#rescates", label: "Rescates", Icon: Leaf },
+    { href: "/cliente#crazy-hour", label: "Crazy Hour", Icon: Leaf },
     { href: "/cliente#clima", label: "Clima", Icon: CloudSun },
   ],
   comercio: [
     { href: "/comercio", label: "Panel", Icon: LayoutDashboard },
     { href: "/comercio/menu", label: "Carta", Icon: BookOpen },
-    { href: "/comercio/rescates", label: "Rescates", Icon: Leaf },
+    { href: "/comercio/crazy-hour", label: "Crazy Hour", Icon: Leaf },
   ],
   admin: [
     { href: "/cliente", label: "Mapa", Icon: MapPinned },

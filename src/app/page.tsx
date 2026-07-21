@@ -27,7 +27,7 @@ const highlights = [
   {
     Icon: Leaf,
     color: "#82c91e",
-    title: "Rescata comida",
+    title: "Crazy Hour",
     text: "Aprovecha ofertas del día antes de que se desperdicien.",
   },
 ];

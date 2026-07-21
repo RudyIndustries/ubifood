@@ -41,7 +41,7 @@ async function getRestaurantContext() {
 }
 
 function refreshRescuePaths() {
-  revalidatePath("/comercio/rescates");
+  revalidatePath("/comercio/crazy-hour");
   revalidatePath("/cliente");
 }
 
@@ -67,11 +67,11 @@ export async function saveRescueDealAction(formData: FormData) {
     !expiresAt ||
     expiresAt.getTime() <= Date.now()
   ) {
-    redirect("/comercio/rescates?error=invalid-deal");
+    redirect("/comercio/crazy-hour?error=invalid-deal");
   }
 
   if (!dealId && restaurant.status !== "approved") {
-    redirect("/comercio/rescates?error=restaurant-not-approved");
+    redirect("/comercio/crazy-hour?error=restaurant-not-approved");
   }
 
   const payload = {
@@ -96,11 +96,11 @@ export async function saveRescueDealAction(formData: FormData) {
   const { data, error } = await query.select("id").maybeSingle<{ id: string }>();
 
   if (error || !data) {
-    redirect("/comercio/rescates?error=deal-save");
+    redirect("/comercio/crazy-hour?error=deal-save");
   }
 
   refreshRescuePaths();
-  redirect(`/comercio/rescates?saved=${dealId ? "updated" : "created"}`);
+  redirect(`/comercio/crazy-hour?saved=${dealId ? "updated" : "created"}`);
 }
 
 export async function toggleRescueDealAction(formData: FormData) {
@@ -109,7 +109,7 @@ export async function toggleRescueDealAction(formData: FormData) {
   const isActive = readString(formData, "isActive") === "true";
 
   if (!dealId) {
-    redirect("/comercio/rescates?error=invalid-deal");
+    redirect("/comercio/crazy-hour?error=invalid-deal");
   }
 
   const { data, error } = await supabase
@@ -121,11 +121,11 @@ export async function toggleRescueDealAction(formData: FormData) {
     .maybeSingle<{ id: string }>();
 
   if (error || !data) {
-    redirect("/comercio/rescates?error=deal-toggle");
+    redirect("/comercio/crazy-hour?error=deal-toggle");
   }
 
   refreshRescuePaths();
-  redirect("/comercio/rescates?saved=status");
+  redirect("/comercio/crazy-hour?saved=status");
 }
 
 export async function deleteRescueDealAction(formData: FormData) {
@@ -133,7 +133,7 @@ export async function deleteRescueDealAction(formData: FormData) {
   const dealId = readString(formData, "dealId");
 
   if (!dealId) {
-    redirect("/comercio/rescates?error=invalid-deal");
+    redirect("/comercio/crazy-hour?error=invalid-deal");
   }
 
   const { data, error } = await supabase
@@ -145,9 +145,9 @@ export async function deleteRescueDealAction(formData: FormData) {
     .maybeSingle<{ id: string }>();
 
   if (error || !data) {
-    redirect("/comercio/rescates?error=deal-delete");
+    redirect("/comercio/crazy-hour?error=deal-delete");
   }
 
   refreshRescuePaths();
-  redirect("/comercio/rescates?saved=deleted");
+  redirect("/comercio/crazy-hour?saved=deleted");
 }

@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "UBIFOOD - Comida y rutas en La Paz",
     short_name: "UBIFOOD",
     description:
-      "Restaurantes, menus, rescates de comida y rutas de transporte en La Paz.",
+      "Restaurantes, menus, ofertas Crazy Hour y rutas de transporte en La Paz.",
     start_url: "/",
     scope: "/",
     display: "standalone",

@@ -1,0 +1,14 @@
+DIAPOSITIVA 1 - UBIFOOD
+Buenas tardes. Ubifood nace para que los restaurantes pequeños y medianos de La Paz puedan ser descubiertos, y para que cada cliente tenga información suficiente para elegir dónde realmente vale la pena comer.
+
+DIAPOSITIVA 2 - EL PROBLEMA
+En La Paz existen negocios con buena comida que no alcanzan suficiente reconocimiento porque su información está dispersa o no aparece cuando alguien busca. Del otro lado, el cliente no siempre conoce el menú, los precios o si el lugar es confiable. El resultado es poca visibilidad para la empresa y decisiones a ciegas para el consumidor.
+
+DIAPOSITIVA 3 - LA VITRINA DIGITAL
+Cada restaurante obtiene una presencia clara: puede mostrar su identidad, horarios, ubicación, menú, precios y disponibilidad. El cliente lo descubre por comida, zona o presupuesto, compara alternativas y finalmente recibe una ruta a pie, en Mi Teleférico o PumaKatari. Así, Ubifood no se limita a mostrar el negocio: convierte visibilidad digital en una visita real.
+
+DIAPOSITIVA 4 - CALIDAD Y CONFIANZA
+Para saber dónde vale la pena comer, primero hacemos visible información verificable: los negocios son aprobados por administración y publican su menú, precios, ubicación y disponibilidad. Esto reduce la incertidumbre desde hoy. Como siguiente etapa, las calificaciones y comentarios de clientes construirán una reputación pública que premiará a los restaurantes que ofrecen una mejor experiencia.
+
+DIAPOSITIVA 5 - IMPACTO Y ESCALA
+El beneficio es compartido: el restaurante gana reconocimiento y nuevos clientes; la persona compara antes de gastar; y la ciudad fortalece su oferta gastronómica local. El MVP ya funciona en web, como PWA y como APK Android, con una sola base de código preparada para crecer. Ubifood hace visibles a los negocios que vale la pena descubrir.

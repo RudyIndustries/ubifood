@@ -1,0 +1,105 @@
+{"kind":"deck","id":"pr/zxm8vh","name":"Deck"}
+{"kind":"layout","layoutId":"1b7cbf06-1931-479b-85d2-5a146cce6669","name":"Master","type":"master"}
+{"kind":"layout","layoutId":"12a34662-d6c9-4ae6-83f4-0741aaeda72f","name":"Title Slide","type":"title"}
+{"kind":"slide","id":"sl/onprah","slide":1,"title":"UBIFOOD","textShapes":4}
+{"kind":"shape","id":"sh/zut4rqlo","slide":1,"name":"dark-overlay","bbox":[0,0,1280,720]}
+{"kind":"shape","id":"sh/ytk3ilk3","slide":1,"name":"orange-rail","bbox":[0,0,12,720]}
+{"kind":"shape","id":"sh/dsb2pg3y","slide":1,"name":"color-1","bbox":[12,0,8,144]}
+{"kind":"shape","id":"sh/cr2lgb2d","slide":1,"name":"color-2","bbox":[12,144,8,144]}
+{"kind":"shape","id":"sh/bq9knqls","slide":1,"name":"color-3","bbox":[12,288,8,144]}
+{"kind":"shape","id":"sh/qp03elk7","slide":1,"name":"color-4","bbox":[12,432,8,288]}
+{"kind":"textbox","id":"sh/onilcb21","slide":1,"name":"title","text":"UBIFOOD","textPreview":"UBIFOOD","textChars":7,"textLines":1,"bbox":[82,238,820,96]}
+{"kind":"textbox","id":"sh/ud4vedwn","slide":1,"name":"subtitle","text":"Más visibilidad para negocios. Más confianza para elegir.","textPreview":"Más visibilidad para negocios. Más confianza para elegir.","textChars":57,"textLines":1,"bbox":[86,344,980,76]}
+{"kind":"shape","id":"sh/vedwnid8","slide":1,"name":"title-rule","bbox":[86,445,170,7]}
+{"kind":"textbox","id":"sh/gzmdg3ed","slide":1,"name":"context","text":"MVP para la ciudad de La Paz, Bolivia","textPreview":"MVP para la ciudad de La Paz, Bolivia","textChars":37,"textLines":1,"bbox":[86,482,720,38]}
+{"kind":"textbox","id":"sh/h0fep8vy","slide":1,"name":"url","text":"ubifood-livid.vercel.app","textPreview":"ubifood-livid.vercel.app","textChars":24,"textLines":1,"bbox":[86,606,560,30]}
+{"kind":"image","id":"im/9wvi9c72","slide":1,"name":"","geometry":"rect","alt":"La Paz y el Illimani","bbox":[0,0,1280,720]}
+{"kind":"image","id":"im/c3ih8nq9","slide":1,"name":"","geometry":"roundRect","alt":"Logo La Paz","bbox":[84,68,168,118]}
+{"kind":"notes","id":"nt/onprah","slide":1,"text":"Buenas tardes. Ubifood nace para que los restaurantes pequeños y medianos de La Paz puedan ser descubiertos, y para que cada cliente tenga información suficiente para elegir dónde realmente vale la pena comer."}
+{"kind":"slide","id":"sl/06u3fk","slide":2,"title":"POCA VISIBILIDAD","textShapes":10}
+{"kind":"shape","id":"sh/u18vq9s3","slide":2,"name":"image-overlay","bbox":[0,0,490,720]}
+{"kind":"shape","id":"sh/v2hwze9o","slide":2,"name":"orange-band","bbox":[0,610,490,110]}
+{"kind":"textbox","id":"sh/4radwja5","slide":2,"name":"problem-callout","text":"POCA VISIBILIDAD\n+ DECISIONES A CIEGAS","textPreview":"POCA VISIBILIDAD | + DECISIONES A CIEGAS","textChars":38,"textLines":2,"bbox":[58,618,375,78]}
+{"kind":"shape","id":"sh/5sje5orq","slide":2,"name":"accent-0","bbox":[80,54,64,8]}
+{"kind":"shape","id":"sh/i5svutsf","slide":2,"name":"accent-1","bbox":[144,54,64,8]}
+{"kind":"shape","id":"sh/j61w3y9k","slide":2,"name":"accent-2","bbox":[208,54,64,8]}
+{"kind":"shape","id":"sh/0v6dkza1","slide":2,"name":"accent-3","bbox":[272,54,64,8]}
+{"kind":"shape","id":"sh/lwfut4bm","slide":2,"name":"accent-4","bbox":[336,54,64,8]}
+{"kind":"textbox","id":"sh/103a1gvi","slide":2,"name":"eyebrow","text":"EL PROBLEMA","textPreview":"EL PROBLEMA","textChars":11,"textLines":1,"bbox":[560,74,280,28]}
+{"kind":"textbox","id":"sh/gzutsbed","slide":2,"name":"headline","text":"Buenos restaurantes pueden pasar desapercibidos.","textPreview":"Buenos restaurantes pueden pasar desapercibidos.","textChars":48,"textLines":1,"bbox":[560,118,640,126]}
+{"kind":"textbox","id":"sh/fylsz6ds","slide":2,"name":"number-one","text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[560,294,70,46]}
+{"kind":"textbox","id":"sh/excbq1w7","slide":2,"name":"citizen-title","text":"Para los negocios","textPreview":"Para los negocios","textChars":17,"textLines":1,"bbox":[650,294,460,40]}
+{"kind":"textbox","id":"sh/p4nu5gvu","slide":2,"name":"citizen-copy","text":"Sin una vitrina digital centralizada, incluso una buena propuesta puede quedar fuera del mapa del cliente.","textPreview":"Sin una vitrina digital centralizada, incluso una buena propuesta puede quedar fuera del mapa del cliente.","textChars":106,"textLines":1,"bbox":[650,342,500,82]}
+{"kind":"shape","id":"sh/o3etwbe9","slide":2,"name":"divider","bbox":[560,454,590,2]}
+{"kind":"textbox","id":"sh/325c3qdo","slide":2,"name":"number-two","text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[560,485,70,46]}
+{"kind":"textbox","id":"sh/21cbulw3","slide":2,"name":"business-title","text":"Para los clientes","textPreview":"Para los clientes","textChars":17,"textLines":1,"bbox":[650,485,460,40]}
+{"kind":"textbox","id":"sh/dsnu90vq","slide":2,"name":"business-copy","text":"Sin menú, precios y señales de confianza, escoger un restaurante se convierte en una apuesta.","textPreview":"Sin menú, precios y señales de confianza, escoger un restaurante se convierte en una apuesta.","textChars":93,"textLines":1,"bbox":[650,533,500,82]}
+{"kind":"textbox","id":"sh/c7et0ve5","slide":2,"name":"footer-2","text":"UBIFOOD  /  LA PAZ  /  02","textPreview":"UBIFOOD  /  LA PAZ  /  02","textChars":25,"textLines":1,"bbox":[80,674,1120,22]}
+{"kind":"image","id":"im/cbalc7u9","slide":2,"name":"","geometry":"rect","alt":"La Paz de noche","bbox":[0,0,490,720]}
+{"kind":"notes","id":"nt/06u3fk","slide":2,"text":"En La Paz existen negocios con buena comida que no alcanzan suficiente reconocimiento porque su información está dispersa o no aparece cuando alguien busca. Del otro lado, el cliente no siempre conoce el menú, los precios o si el lugar es confiable. El resultado es poca visibilidad para la empresa y decisiones a ciegas para el consumidor."}
+{"kind":"slide","id":"sl/d31968","slide":3,"title":"LA EXPERIENCIA","textShapes":15}
+{"kind":"shape","id":"sh/dk72t4fm","slide":3,"name":"accent-0","bbox":[80,54,64,8]}
+{"kind":"shape","id":"sh/qxwjipwv","slide":3,"name":"accent-1","bbox":[144,54,64,8]}
+{"kind":"shape","id":"sh/ri5kruxg","slide":3,"name":"accent-2","bbox":[208,54,64,8]}
+{"kind":"shape","id":"sh/4ve1gzep","slide":3,"name":"accent-3","bbox":[272,54,64,8]}
+{"kind":"shape","id":"sh/pwn2pkfa","slide":3,"name":"accent-4","bbox":[336,54,64,8]}
+{"kind":"textbox","id":"sh/2twjepwz","slide":3,"name":"eyebrow","text":"LA EXPERIENCIA","textPreview":"LA EXPERIENCIA","textChars":14,"textLines":1,"bbox":[80,76,280,28]}
+{"kind":"textbox","id":"sh/3u5knuxk","slide":3,"name":"headline","text":"Una vitrina digital que sí conduce hasta el negocio.","textPreview":"Una vitrina digital que sí conduce hasta el negocio.","textChars":52,"textLines":1,"bbox":[80,116,1080,62]}
+{"kind":"shape","id":"sh/orilsje9","slide":3,"name":"step-dot-1","bbox":[82,224,48,48]}
+{"kind":"textbox","id":"sh/9sr21ofu","slide":3,"name":"step-number-1","text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[82,231,48,34]}
+{"kind":"textbox","id":"sh/5ovaxo7y","slide":3,"name":"step-title-1","text":"Se presenta","textPreview":"Se presenta","textChars":11,"textLines":1,"bbox":[150,223,230,32]}
+{"kind":"textbox","id":"sh/knm94j6d","slide":3,"name":"step-copy-1","text":"Ficha, ubicación, horarios e identidad.","textPreview":"Ficha, ubicación, horarios e identidad.","textChars":39,"textLines":1,"bbox":[150,258,285,48]}
+{"kind":"shape","id":"sh/j2dsveps","slide":3,"name":"step-dot-2","bbox":[82,320,48,48]}
+{"kind":"textbox","id":"sh/i14r29o7","slide":3,"name":"step-number-2","text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[82,327,48,34]}
+{"kind":"textbox","id":"sh/x0bqt47m","slide":3,"name":"step-title-2","text":"Muestra","textPreview":"Muestra","textChars":7,"textLines":1,"bbox":[150,319,230,32]}
+{"kind":"textbox","id":"sh/wz290z6h","slide":3,"name":"step-copy-2","text":"Menú, precios y disponibilidad real.","textPreview":"Menú, precios y disponibilidad real.","textChars":36,"textLines":1,"bbox":[150,354,285,48]}
+{"kind":"shape","id":"sh/vyt8rupw","slide":3,"name":"step-dot-3","bbox":[82,416,48,48]}
+{"kind":"textbox","id":"sh/axkrypob","slide":3,"name":"step-number-3","text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[82,423,48,34]}
+{"kind":"textbox","id":"sh/hwfa5876","slide":3,"name":"step-title-3","text":"Se descubre","textPreview":"Se descubre","textChars":11,"textLines":1,"bbox":[150,415,230,32]}
+{"kind":"textbox","id":"sh/gv69c36l","slide":3,"name":"step-copy-3","text":"Búsqueda por comida, zona y presupuesto.","textPreview":"Búsqueda por comida, zona y presupuesto.","textChars":40,"textLines":1,"bbox":[150,450,285,48]}
+{"kind":"shape","id":"sh/0bylobit","slide":3,"name":"step-dot-4","bbox":[82,512,48,48]}
+{"kind":"textbox","id":"sh/lc72xwze","slide":3,"name":"step-number-4","text":"4","textPreview":"4","textChars":1,"textLines":1,"bbox":[82,519,48,34]}
+{"kind":"textbox","id":"sh/y9g3m103","slide":3,"name":"step-title-4","text":"Convierte","textPreview":"Convierte","textChars":9,"textLines":1,"bbox":[150,511,230,32]}
+{"kind":"textbox","id":"sh/zapkv6h8","slide":3,"name":"step-copy-4","text":"La ruta lleva al cliente hasta su puerta.","textPreview":"La ruta lleva al cliente hasta su puerta.","textChars":41,"textLines":1,"bbox":[150,546,285,48]}
+{"kind":"shape","id":"sh/c7elkrix","slide":3,"name":"screenshot-shadow","bbox":[470,208,730,424]}
+{"kind":"textbox","id":"sh/q5w3ih0r","slide":3,"name":"footer-3","text":"UBIFOOD  /  LA PAZ  /  03","textPreview":"UBIFOOD  /  LA PAZ  /  03","textChars":25,"textLines":1,"bbox":[80,674,1120,22]}
+{"kind":"image","id":"im/ah0jixwn","slide":3,"name":"","geometry":"roundRect","alt":"Mapa y planificador de rutas Ubifood","bbox":[458,196,730,424]}
+{"kind":"notes","id":"nt/d31968","slide":3,"text":"Cada restaurante obtiene una presencia clara: puede mostrar su identidad, horarios, ubicación, menú, precios y disponibilidad. El cliente lo descubre por comida, zona o presupuesto, compara alternativas y finalmente recibe una ruta a pie, en Mi Teleférico o PumaKatari. Así, Ubifood no se limita a mostrar el negocio: convierte visibilidad digital en una visita real."}
+{"kind":"slide","id":"sl/ed955x","slide":4,"title":"CALIDAD + CONFIANZA","textShapes":7}
+{"kind":"shape","id":"sh/wj2lc7q9","slide":4,"name":"green-rail","bbox":[0,0,14,720]}
+{"kind":"shape","id":"sh/vitkj29o","slide":4,"name":"accent-0","bbox":[80,54,64,8]}
+{"kind":"shape","id":"sh/ahkjax83","slide":4,"name":"accent-1","bbox":[144,54,64,8]}
+{"kind":"shape","id":"sh/9gb2hcri","slide":4,"name":"accent-2","bbox":[208,54,64,8]}
+{"kind":"shape","id":"sh/8f2187qx","slide":4,"name":"accent-3","bbox":[272,54,64,8]}
+{"kind":"shape","id":"sh/ne9kf29c","slide":4,"name":"accent-4","bbox":[336,54,64,8]}
+{"kind":"textbox","id":"sh/md0j6x8r","slide":4,"name":"eyebrow","text":"CALIDAD + CONFIANZA","textPreview":"CALIDAD + CONFIANZA","textChars":19,"textLines":1,"bbox":[80,76,380,28]}
+{"kind":"textbox","id":"sh/tcv2twrm","slide":4,"name":"headline","text":"La calidad deja de ser una apuesta.","textPreview":"La calidad deja de ser una apuesta.","textChars":35,"textLines":1,"bbox":[80,122,720,116]}
+{"kind":"textbox","id":"sh/sbmlkrq1","slide":4,"name":"business-copy","text":"Ubifood muestra información verificable para comparar antes de elegir: aprobación, menú, precios, ubicación y disponibilidad.","textPreview":"Ubifood muestra información verificable para comparar antes de elegir: aprobación, menú, precios, ubicación y disponibilidad.","textChars":125,"textLines":1,"bbox":[82,276,590,98]}
+{"kind":"shape","id":"sh/mhwbyxg3","slide":4,"name":"trust-rule","bbox":[82,410,470,3]}
+{"kind":"textbox","id":"sh/725s72ho","slide":4,"name":"trust-title","text":"Siguiente evolución","textPreview":"Siguiente evolución","textChars":19,"textLines":1,"bbox":[82,444,420,42]}
+{"kind":"textbox","id":"sh/83et07y9","slide":4,"name":"trust-copy","text":"Calificaciones y comentarios de clientes construirán una reputación visible para cada restaurante.","textPreview":"Calificaciones y comentarios de clientes construirán una reputación visible para cada restaurante.","textChars":98,"textLines":1,"bbox":[82,494,540,70]}
+{"kind":"shape","id":"sh/94na9czu","slide":4,"name":"logo-field","bbox":[790,116,350,420]}
+{"kind":"textbox","id":"sh/zels32hs","slide":4,"name":"zero-waste","text":"ELEGIR CON\nCONFIANZA","textPreview":"ELEGIR CON | CONFIANZA","textChars":20,"textLines":2,"bbox":[830,406,270,76]}
+{"kind":"textbox","id":"sh/kfetwnyd","slide":4,"name":"footer-4","text":"UBIFOOD  /  LA PAZ  /  04","textPreview":"UBIFOOD  /  LA PAZ  /  04","textChars":25,"textLines":1,"bbox":[80,674,1120,22]}
+{"kind":"image","id":"im/5cni1kjm","slide":4,"name":"","geometry":"rect","alt":"Marca de La Paz","bbox":[830,190,270,190]}
+{"kind":"notes","id":"nt/ed955x","slide":4,"text":"Para saber dónde vale la pena comer, primero hacemos visible información verificable: los negocios son aprobados por administración y publican su menú, precios, ubicación y disponibilidad. Esto reduce la incertidumbre desde hoy. Como siguiente etapa, las calificaciones y comentarios de clientes construirán una reputación pública que premiará a los restaurantes que ofrecen una mejor experiencia."}
+{"kind":"slide","id":"sl/bqeczp","slide":5,"title":"IMPACTO Y ESCALA","textShapes":9}
+{"kind":"shape","id":"sh/b6l07a1w","slide":5,"name":"accent-0","bbox":[80,54,64,8]}
+{"kind":"shape","id":"sh/c7u1gfih","slide":5,"name":"accent-1","bbox":[144,54,64,8]}
+{"kind":"shape","id":"sh/d8329kjm","slide":5,"name":"accent-2","bbox":[208,54,64,8]}
+{"kind":"shape","id":"sh/21sja50z","slide":5,"name":"accent-3","bbox":[272,54,64,8]}
+{"kind":"shape","id":"sh/32103a1k","slide":5,"name":"accent-4","bbox":[336,54,64,8]}
+{"kind":"textbox","id":"sh/o3u1cvi5","slide":5,"name":"eyebrow","text":"IMPACTO Y ESCALA","textPreview":"IMPACTO Y ESCALA","textChars":16,"textLines":1,"bbox":[80,76,360,28]}
+{"kind":"textbox","id":"sh/p43i50jq","slide":5,"name":"headline","text":"Más reconocimiento. Mejores decisiones.","textPreview":"Más reconocimiento. Mejores decisiones.","textChars":39,"textLines":1,"bbox":[80,122,880,66]}
+{"kind":"textbox","id":"sh/fe10zq1o","slide":5,"name":"mode-NEGOCIO","text":"NEGOCIO","textPreview":"NEGOCIO","textChars":7,"textLines":1,"bbox":[430,226,170,48]}
+{"kind":"textbox","id":"sh/3mlwfe5o","slide":5,"name":"mode-detail-NEGOCIO","text":"Más visibilidad y clientes","textPreview":"Más visibilidad y clientes","textChars":26,"textLines":1,"bbox":[620,229,470,44]}
+{"kind":"shape","id":"sh/2lsfmt43","slide":5,"name":"mode-divider-0","bbox":[430,298,650,2]}
+{"kind":"textbox","id":"sh/po3yhone","slide":5,"name":"mode-CLIENTE","text":"CLIENTE","textPreview":"CLIENTE","textChars":7,"textLines":1,"bbox":[430,338,170,48]}
+{"kind":"textbox","id":"sh/onuxojmt","slide":5,"name":"mode-detail-CLIENTE","text":"Compara antes de elegir","textPreview":"Compara antes de elegir","textChars":23,"textLines":1,"bbox":[620,341,470,44]}
+{"kind":"shape","id":"sh/balgjylk","slide":5,"name":"mode-divider-1","bbox":[430,410,650,2]}
+{"kind":"textbox","id":"sh/qpcfqt4z","slide":5,"name":"mode-CIUDAD","text":"CIUDAD","textPreview":"CIUDAD","textChars":6,"textLines":1,"bbox":[430,450,170,48]}
+{"kind":"textbox","id":"sh/dc3yl83q","slide":5,"name":"mode-detail-CIUDAD","text":"Oferta local más conectada","textPreview":"Oferta local más conectada","textChars":26,"textLines":1,"bbox":[620,453,470,44]}
+{"kind":"shape","id":"sh/cbuxs3m5","slide":5,"name":"closing-band","bbox":[0,586,1280,134]}
+{"kind":"textbox","id":"sh/re1w7u5g","slide":5,"name":"closing","text":"UBIFOOD hace visibles a los negocios que vale la pena descubrir.","textPreview":"UBIFOOD hace visibles a los negocios que vale la pena descubrir.","textChars":64,"textLines":1,"bbox":[80,620,1110,60]}
+{"kind":"image","id":"im/3alwza5s","slide":5,"name":"","geometry":"roundRect","alt":"Icono de la aplicación Ubifood","bbox":[82,236,260,260]}
+{"kind":"notes","id":"nt/bqeczp","slide":5,"text":"El beneficio es compartido: el restaurante gana reconocimiento y nuevos clientes; la persona compara antes de gastar; y la ciudad fortalece su oferta gastronómica local. El MVP ya funciona en web, como PWA y como APK Android, con una sola base de código preparada para crecer. Ubifood hace visibles a los negocios que vale la pena descubrir."}

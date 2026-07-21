@@ -152,7 +152,7 @@ async function getOwnedRestaurantId() {
 function refreshCommerceWorkspace() {
   revalidatePath("/comercio");
   revalidatePath("/comercio/menu");
-  revalidatePath("/comercio/rescates");
+  revalidatePath("/comercio/crazy-hour");
   revalidatePath("/cliente");
 }
 

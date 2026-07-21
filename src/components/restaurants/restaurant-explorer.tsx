@@ -332,7 +332,7 @@ export function RestaurantExplorer({ restaurants }: RestaurantExplorerProps) {
                       <span>{availableItems.length} platos disponibles</span>
                       {restaurant.rescue_count > 0 && (
                         <span className="ml-2 inline-flex items-center gap-1 text-[#18664f]">
-                          <Leaf size={13} /> {restaurant.rescue_count} rescates
+                          <Leaf size={13} /> {restaurant.rescue_count} Crazy Hour
                         </span>
                       )}
                     </div>

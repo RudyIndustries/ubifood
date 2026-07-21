@@ -6,7 +6,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Ubifood | Comida cercana en La Paz",
   description:
-    "Ubifood conecta estudiantes, ciudadanos y comercios de La Paz con menus, rutas y ofertas cero desperdicio.",
+    "Ubifood conecta estudiantes, ciudadanos y comercios de La Paz con menus, rutas y ofertas Crazy Hour.",
   applicationName: "UBIFOOD",
   manifest: "/manifest.webmanifest",
   icons: {

@@ -180,11 +180,11 @@ export default async function ComercioPage({ searchParams }: ComercioPageProps) 
                 Menu y precios
               </Link>
               <Link
-                href="/comercio/rescates"
+                href="/comercio/crazy-hour"
                 className="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-[#18664f] px-4 text-sm font-black text-white"
               >
                 <Leaf size={18} />
-                Publicar rescate
+                Publicar Crazy Hour
               </Link>
               {restaurant.status === "approved" && (
                 <Link
@@ -217,7 +217,7 @@ export default async function ComercioPage({ searchParams }: ComercioPageProps) 
               ? "Todo el menu quedo disponible para hoy."
               : daily === "menu-paused"
                 ? "El menu fue pausado; los platos aparecen agotados."
-                : "Las promociones de rescate activas fueron finalizadas."}
+                : "Las ofertas Crazy Hour activas fueron finalizadas."}
           </p>
         )}
       </section>
@@ -250,12 +250,12 @@ export default async function ComercioPage({ searchParams }: ComercioPageProps) 
               <article className="ubifood-lift rounded-lg border border-black/5 bg-white p-4">
                 <Leaf className="text-[#18664f]" size={20} />
                 <p className="mt-3 text-2xl font-black">{activeRescues.length}</p>
-                <p className="text-xs font-bold text-black/50">rescates activos</p>
+                <p className="text-xs font-bold text-black/50">Crazy Hour activas</p>
               </article>
               <article className="ubifood-lift rounded-lg border border-black/5 bg-white p-4">
                 <PackageCheck className="text-[#43aa8b]" size={20} />
                 <p className="mt-3 text-2xl font-black">{rescuePortions}</p>
-                <p className="text-xs font-bold text-black/50">porciones por rescatar</p>
+                <p className="text-xs font-bold text-black/50">porciones en Crazy Hour</p>
               </article>
             </div>
           </section>
@@ -285,7 +285,7 @@ export default async function ComercioPage({ searchParams }: ComercioPageProps) 
                 disabled={activeRescues.length === 0}
                 className="ubifood-action inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg border border-white/15 px-3 text-sm font-black text-white disabled:cursor-not-allowed disabled:opacity-35"
               >
-                <Leaf size={17} /> Finalizar rescates activos
+                <Leaf size={17} /> Finalizar Crazy Hour
               </button>
             </form>
           </section>
@@ -324,10 +324,10 @@ export default async function ComercioPage({ searchParams }: ComercioPageProps) 
                 <Plus size={16} /> Agregar platos
               </Link>
               <Link
-                href="/comercio/rescates"
+                href="/comercio/crazy-hour"
                 className="ubifood-action inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-[#e8f5ef] px-3 text-xs font-black text-[#18664f]"
               >
-                <Leaf size={16} /> Crear rescate
+                <Leaf size={16} /> Crear Crazy Hour
               </Link>
             </div>
           </section>

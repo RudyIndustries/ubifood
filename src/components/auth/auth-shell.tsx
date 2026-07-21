@@ -66,7 +66,7 @@ export function AuthShell({ mode, children }: AuthShellProps) {
             <CableCar className="mb-2 text-[#00b7df]" size={19} /> Rutas claras
           </span>
           <span className="border-t-2 border-[#82c91e] pt-3">
-            <Leaf className="mb-2 text-[#82c91e]" size={19} /> Sin desperdicio
+            <Leaf className="mb-2 text-[#82c91e]" size={19} /> Crazy Hour
           </span>
         </div>
       </aside>

@@ -2,7 +2,6 @@
 
 import { useRef, useState } from "react";
 import { ImageIcon, LoaderCircle, Trash2, Upload } from "lucide-react";
-import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
 
 type ImageUploadFieldProps = {
   inputName: string;
@@ -17,21 +16,10 @@ type ImageUploadFieldProps = {
 const ACCEPTED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/avif"];
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
-function extensionFor(file: File) {
-  const typeExtension: Record<string, string> = {
-    "image/jpeg": "jpg",
-    "image/png": "png",
-    "image/webp": "webp",
-    "image/avif": "avif",
-  };
-  return typeExtension[file.type] ?? "jpg";
-}
-
 export function ImageUploadField({
   inputName,
   label,
   defaultValue,
-  ownerId,
   restaurantId,
   folder,
   onValueChange,
@@ -62,29 +50,28 @@ export function ImageUploadField({
     }
 
     setUploading(true);
-    const path = `${ownerId}/${restaurantId}/${folder}/${crypto.randomUUID()}.${extensionFor(file)}`;
-    const supabase = createSupabaseBrowserClient();
-    const { error: uploadError } = await supabase.storage
-      .from("restaurant-media")
-      .upload(path, file, {
-        cacheControl: "3600",
-        contentType: file.type,
-        upsert: false,
+    try {
+      const body = new FormData();
+      body.set("file", file);
+      body.set("restaurantId", restaurantId);
+      body.set("folder", folder);
+
+      const response = await fetch("/api/media/upload", {
+        method: "POST",
+        body,
       });
+      const payload = (await response.json()) as { publicUrl?: string; error?: string };
 
-    if (uploadError) {
-      setError(
-        uploadError.message.toLowerCase().includes("bucket")
-          ? "Falta configurar el bucket restaurant-media."
-          : uploadError.message,
-      );
+      if (!response.ok || !payload.publicUrl) {
+        setError(payload.error ?? "No pudimos subir la imagen.");
+        return;
+      }
+      updateValue(payload.publicUrl);
+    } catch {
+      setError("No pudimos conectar con el servidor para subir la imagen.");
+    } finally {
       setUploading(false);
-      return;
     }
-
-    const { data } = supabase.storage.from("restaurant-media").getPublicUrl(path);
-    updateValue(data.publicUrl);
-    setUploading(false);
   };
 
   return (

@@ -75,7 +75,7 @@ export default async function ClientePage() {
               <Store size={15} className="text-[#d62828]" /> {restaurants.length} restaurantes
             </span>
             <span className="inline-flex items-center gap-2 rounded-md bg-[#e8f5ef] px-3 py-2 text-[#18664f]">
-              <Leaf size={15} className="text-[#43aa8b]" /> {rescueDeals.length} rescates
+              <Leaf size={15} className="text-[#43aa8b]" /> {rescueDeals.length} Crazy Hour
             </span>
             <span className="inline-flex items-center gap-2 rounded-md bg-[#eef5f8] px-3 py-2 text-[#245f78]">
               <span className="ubifood-live-dot size-2 rounded-full bg-[#43aa8b]" />

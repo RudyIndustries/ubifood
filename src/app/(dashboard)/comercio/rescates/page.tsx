@@ -35,7 +35,7 @@ function firstParam(
 }
 
 function savedMessage(value: string | undefined) {
-  if (value === "created") return "Oferta publicada en Cero Desperdicio.";
+  if (value === "created") return "Oferta publicada en Crazy Hour.";
   if (value === "updated") return "Oferta actualizada.";
   if (value === "status") return "Estado de la oferta actualizado.";
   if (value === "deleted") return "Oferta eliminada.";
@@ -44,7 +44,7 @@ function savedMessage(value: string | undefined) {
 
 function errorMessage(value: string | undefined) {
   if (value === "restaurant-not-approved") {
-    return "El restaurante debe estar aprobado antes de publicar rescates.";
+    return "El restaurante debe estar aprobado antes de publicar Crazy Hour.";
   }
   if (value === "invalid-deal") {
     return "Revisa precios, cantidad y vencimiento. El descuento debe ser real y la hora futura.";
@@ -78,7 +78,7 @@ function RescueFields({ deal }: { deal?: RescueDeal }) {
           maxLength={100}
           defaultValue={deal?.title ?? ""}
           className={inputClass}
-          placeholder="Ej. 2 almuerzos de rescate"
+          placeholder="Ej. 2 almuerzos Crazy Hour"
         />
       </label>
       <label className="block">
@@ -95,7 +95,7 @@ function RescueFields({ deal }: { deal?: RescueDeal }) {
         />
       </label>
       <label className="block">
-        <span className="text-sm font-bold text-black/65">Precio rescate (Bs)</span>
+        <span className="text-sm font-bold text-black/65">Precio Crazy Hour (Bs)</span>
         <input
           name="rescuePrice"
           type="number"
@@ -192,8 +192,8 @@ export default async function ComercioRescatesPage({ searchParams }: RescuePageP
         </Link>
         <div className="mt-3 flex flex-wrap items-end justify-between gap-3">
           <div>
-            <p className="text-sm font-black uppercase text-[#43aa8b]">Cero Desperdicio</p>
-            <h1 className="text-3xl font-black">Rescates de {restaurant.name}</h1>
+            <p className="text-sm font-black uppercase text-[#43aa8b]">Promociones especiales</p>
+            <h1 className="text-3xl font-black">Crazy Hour de {restaurant.name}</h1>
           </div>
           <span className="rounded-lg bg-[#e8f5ef] px-3 py-2 text-sm font-black text-[#18664f]">
             {activeCount} activas
@@ -218,7 +218,7 @@ export default async function ComercioRescatesPage({ searchParams }: RescuePageP
         <form action={saveRescueDealAction} className="mt-5">
           <RescueFields />
           <button className="mt-4 inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#18664f] px-4 text-sm font-black text-white hover:bg-[#124f3d]">
-            <Leaf size={18} /> Publicar rescate
+            <Leaf size={18} /> Publicar Crazy Hour
           </button>
         </form>
       </section>
@@ -231,7 +231,7 @@ export default async function ComercioRescatesPage({ searchParams }: RescuePageP
         {deals.length === 0 ? (
           <div className="rounded-lg border border-dashed border-black/20 bg-white/60 p-8 text-center">
             <Leaf className="mx-auto text-black/35" />
-            <p className="mt-3 font-black">Todavia no publicaste rescates</p>
+            <p className="mt-3 font-black">Todavia no publicaste ofertas Crazy Hour</p>
             <p className="mt-1 text-sm text-black/55">Usa el formulario cuando tengas excedentes.</p>
           </div>
         ) : (

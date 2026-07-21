@@ -45,16 +45,16 @@ export function RescueDeals({ deals }: { deals: RescueDealWithRestaurant[] }) {
 
   return (
     <section
-      id="rescates"
+      id="crazy-hour"
       className="ubifood-reveal mt-5 scroll-mt-20"
       aria-labelledby="rescue-title"
     >
       <div className="flex items-end justify-between gap-3">
         <div>
           <p className="flex items-center gap-2 text-sm font-black text-[#18664f]">
-            <Leaf size={17} /> Cero Desperdicio
+            <Leaf size={17} /> Crazy Hour
           </p>
-          <h2 id="rescue-title" className="text-2xl font-black">Rescata comida hoy</h2>
+          <h2 id="rescue-title" className="text-2xl font-black">Ofertas por tiempo limitado</h2>
         </div>
         <span className="text-sm font-bold text-black/45">{deals.length} activas</span>
       </div>

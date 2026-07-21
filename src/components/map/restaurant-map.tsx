@@ -941,7 +941,7 @@ export function RestaurantMap({ restaurants }: RestaurantMapProps) {
               <div className="mb-3 flex gap-2 text-xs font-bold text-black/50">
                 <span>{selected.availableItems} platos</span>
                 {selected.rescueCount > 0 && (
-                  <span className="flex items-center gap-1 text-[#18664f]"><Leaf size={14} /> {selected.rescueCount} rescates</span>
+                  <span className="flex items-center gap-1 text-[#18664f]"><Leaf size={14} /> {selected.rescueCount} Crazy Hour</span>
                 )}
               </div>
               <div className="grid grid-cols-2 gap-2">

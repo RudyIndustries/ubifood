@@ -58,9 +58,9 @@ export default async function DashboardLayout({
                   <BookOpen size={18} />
                 </Link>
                 <Link
-                  href="/comercio/rescates"
-                  aria-label="Cero Desperdicio"
-                  title="Cero Desperdicio"
+                  href="/comercio/crazy-hour"
+                  aria-label="Crazy Hour"
+                  title="Crazy Hour"
                   className="ubifood-icon-button grid size-10 place-items-center rounded-lg bg-[#e8f5ef] text-[#18664f]"
                 >
                   <Leaf size={18} />
