@@ -9,6 +9,7 @@ import {
   Map as MapIcon,
   MapPin,
   Search,
+  Star,
   UtensilsCrossed,
   X,
 } from "lucide-react";
@@ -26,6 +27,8 @@ export type ExplorerRestaurant = Restaurant & {
   restaurant_theme: RestaurantTheme | RestaurantTheme[] | null;
   menu_items: MenuItem[];
   rescue_count: number;
+  rating_average: number | null;
+  rating_count: number;
 };
 
 type RestaurantExplorerProps = {
@@ -114,6 +117,8 @@ export function RestaurantExplorer({ restaurants }: RestaurantExplorerProps) {
             : null,
           availableItems: availableItems.length,
           rescueCount: restaurant.rescue_count,
+          ratingAverage: restaurant.rating_average,
+          ratingCount: restaurant.rating_count,
           menuItems: restaurant.menu_items,
           theme: restaurantTheme(restaurant),
         };
@@ -321,6 +326,12 @@ export function RestaurantExplorer({ restaurants }: RestaurantExplorerProps) {
                       <h3 className="truncate text-lg font-black">{restaurant.name}</h3>
                       <p className="mt-1 flex items-center gap-1 text-xs font-bold text-black/50">
                         <MapPin size={14} /> {restaurant.zone}
+                      </p>
+                      <p className="mt-1 flex items-center gap-1 text-xs font-black text-[#8a6200]">
+                        <Star size={14} fill="#f9c74f" className="text-[#d99800]" />
+                        {restaurant.rating_average === null
+                          ? "Sin calificaciones"
+                          : `${restaurant.rating_average.toFixed(1)} (${restaurant.rating_count})`}
                       </p>
                     </div>
                     <span className="whitespace-nowrap text-sm font-black" style={{ color }}>

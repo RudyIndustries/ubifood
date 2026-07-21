@@ -9,12 +9,13 @@ import {
 } from "@/components/restaurants/rescue-deals";
 import { UvAdvisor } from "@/components/weather/uv-advisor";
 import { requireProfile } from "@/lib/auth/session";
+import type { RestaurantRating } from "@/lib/restaurants/types";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export default async function ClientePage() {
   const profile = await requireProfile(["cliente", "admin"]);
   const supabase = await createSupabaseServerClient();
-  const [restaurantResult, rescueResult] = await Promise.all([
+  const [restaurantResult, rescueResult, ratingResult] = await Promise.all([
     supabase
       .from("restaurants")
       .select("*,restaurant_theme(*),menu_items(*)")
@@ -32,6 +33,10 @@ export default async function ClientePage() {
       .eq("restaurants.status", "approved")
       .order("expires_at")
       .returns<RescueDealWithRestaurant[]>(),
+    supabase
+      .from("restaurant_ratings")
+      .select("restaurant_id,rating")
+      .returns<Pick<RestaurantRating, "restaurant_id" | "rating">[]>(),
   ]);
   const rescueDeals = rescueResult.data ?? [];
   const rescueCountByRestaurant = new Map<string, number>();
@@ -46,9 +51,22 @@ export default async function ClientePage() {
       );
     }
   });
+  const ratingByRestaurant = new Map<string, { total: number; count: number }>();
+  (ratingResult.data ?? []).forEach((rating) => {
+    const current = ratingByRestaurant.get(rating.restaurant_id) ?? { total: 0, count: 0 };
+    ratingByRestaurant.set(rating.restaurant_id, {
+      total: current.total + Number(rating.rating),
+      count: current.count + 1,
+    });
+  });
   const restaurants = (restaurantResult.data ?? []).map((restaurant) => ({
     ...restaurant,
     rescue_count: rescueCountByRestaurant.get(restaurant.id) ?? 0,
+    rating_average: ratingByRestaurant.has(restaurant.id)
+      ? (ratingByRestaurant.get(restaurant.id)?.total ?? 0) /
+        (ratingByRestaurant.get(restaurant.id)?.count ?? 1)
+      : null,
+    rating_count: ratingByRestaurant.get(restaurant.id)?.count ?? 0,
   }));
 
   return (

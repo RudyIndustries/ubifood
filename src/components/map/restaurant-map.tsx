@@ -14,6 +14,7 @@ import {
   MapPin,
   Navigation,
   Route as RouteIcon,
+  Star,
   X,
 } from "lucide-react";
 import maplibregl, { type Marker } from "maplibre-gl";
@@ -48,6 +49,8 @@ export type MapRestaurant = {
   startingPrice: number | null;
   availableItems: number;
   rescueCount: number;
+  ratingAverage: number | null;
+  ratingCount: number;
   menuItems: MenuItem[];
   theme: Pick<
     RestaurantTheme,
@@ -930,6 +933,12 @@ export function RestaurantMap({ restaurants }: RestaurantMapProps) {
               <h3 className="truncate text-lg font-black">{selected.name}</h3>
               <p className="mt-1 flex items-center gap-1 text-xs font-bold text-black/50">
                 <MapPin size={14} /> {selected.zone}, {selected.address}
+              </p>
+              <p className="mt-1 flex items-center gap-1 text-xs font-black text-[#8a6200]">
+                <Star size={14} fill="#f9c74f" className="text-[#d99800]" />
+                {selected.ratingAverage === null
+                  ? "Sin calificaciones"
+                  : `${selected.ratingAverage.toFixed(1)} (${selected.ratingCount})`}
               </p>
             </div>
             <p className="whitespace-nowrap text-base font-black" style={{ color: selected.color }}>
